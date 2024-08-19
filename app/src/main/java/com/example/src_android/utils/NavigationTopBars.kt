@@ -4,6 +4,8 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -12,12 +14,15 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material3.Button
 import androidx.compose.material3.DrawerState
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults.topAppBarColors
 import androidx.compose.runtime.Composable
@@ -38,7 +43,7 @@ fun TopHomeBar(onClick:()->Unit){
         ),
 
         navigationIcon = {
-            IconButton(onClick = { onClick() }, modifier = Modifier.padding(start = 15.dp)) {
+            IconButton(onClick = { onClick() }) {
                 Icon(
                     imageVector = Icons.Default.AccountCircle,
                     contentDescription = "profile " +
@@ -48,15 +53,15 @@ fun TopHomeBar(onClick:()->Unit){
             }
         },
         title = {
-            Column(modifier = Modifier.fillMaxWidth(),
-                horizontalAlignment = Alignment.CenterHorizontally) {
-                Image(
-                    painter = painterResource(id = R.drawable.src_logo),
-                    contentDescription = "Logo",
-                    modifier = Modifier.size(95.dp)
-                )
+                Row(modifier = Modifier.fillMaxWidth()) {
+                    Spacer(modifier = Modifier.fillMaxWidth(0.3f))
+                    Image(
+                        painter = painterResource(id = R.drawable.src_logo),
+                        contentDescription = "Logo",
+                        modifier = Modifier.size(75.dp)
+                    )
+                }
 
-            }
         }
     )
 }
@@ -80,14 +85,75 @@ fun OtherTopBar(onClick: () -> Unit){
             }
         },
         title = {
-            Column(modifier = Modifier.fillMaxWidth(),
-                horizontalAlignment = Alignment.CenterHorizontally) {
+            Row(modifier = Modifier.fillMaxWidth()) {
+                Spacer(modifier = Modifier.fillMaxWidth(0.3f))
                 Image(
                     painter = painterResource(id = R.drawable.src_logo),
                     contentDescription = "Logo",
-                    modifier = Modifier.size(95.dp)
+                    modifier = Modifier.size(75.dp)
                 )
+            }
+        }
+    )
+}
 
+
+
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun ProfileTopBar(onClick: () -> Unit,toEditProfile:()->Unit){
+    TopAppBar(
+        colors = topAppBarColors(
+            containerColor = MaterialTheme.colorScheme.primaryContainer,
+            titleContentColor = MaterialTheme.colorScheme.primary,
+        ),
+
+        navigationIcon = {
+            IconButton(onClick = { onClick() }) {
+                Icon(
+                    imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                    contentDescription = "navigate Back",
+                    modifier = Modifier.size(31.dp)
+                )
+            }
+        },
+        title = {
+            Column(modifier = Modifier.fillMaxWidth(),
+                horizontalAlignment = Alignment.End) {
+                OutlinedButton(onClick = { toEditProfile() }) {
+                    Text(text = "Edit Profile")
+                }
+            }
+        }
+    )
+}
+
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun edtProfileTopBar(onClick: () -> Unit){
+    TopAppBar(
+        colors = topAppBarColors(
+            containerColor = MaterialTheme.colorScheme.primaryContainer,
+            titleContentColor = MaterialTheme.colorScheme.primary,
+        ),
+
+        navigationIcon = {
+            IconButton(onClick = { onClick() }) {
+                Icon(
+                    imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                    contentDescription = "navigate Back",
+                    modifier = Modifier.size(31.dp)
+                )
+            }
+        },
+        title = {
+            Column(modifier = Modifier.fillMaxWidth(),
+                horizontalAlignment = Alignment.End) {
+                OutlinedButton(onClick = { onClick() }) {
+                    Text(text = "Save")
+                }
             }
         }
     )
