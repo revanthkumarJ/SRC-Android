@@ -18,6 +18,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults.topAppBarColors
 import androidx.compose.runtime.Composable
@@ -27,7 +28,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.example.src_android.R
-
+import androidx.compose.material3.Text
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TopHomeBar(onClick:()->Unit){
@@ -91,4 +92,64 @@ fun OtherTopBar(onClick: () -> Unit){
             }
         }
     )
+}
+
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun ProfileTopBar(onClick: () -> Unit,toEditProfile:()->Unit){
+    TopAppBar(
+        colors = topAppBarColors(
+            containerColor = MaterialTheme.colorScheme.primaryContainer,
+            titleContentColor = MaterialTheme.colorScheme.primary,
+        ),
+
+        navigationIcon = {
+            IconButton(onClick = { onClick() }) {
+                Icon(
+                    imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                    contentDescription = "navigate Back",
+                    modifier = Modifier.size(31.dp)
+                )
+            }
+        },
+        title = {
+            Column(modifier = Modifier.fillMaxWidth(),
+                horizontalAlignment = Alignment.End) {
+                OutlinedButton(onClick = { toEditProfile() }) {
+                    Text(text = "Edit Profile")
+                }
+            }
+        }
+    )
+}
+
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun EdtProfileTopBar(onClick: () -> Unit){
+    TopAppBar(
+        colors = topAppBarColors(
+            containerColor = MaterialTheme.colorScheme.primaryContainer,
+            titleContentColor = MaterialTheme.colorScheme.primary,
+        ),
+
+        navigationIcon = {
+            IconButton(onClick = { onClick() }) {
+                Icon(
+                    imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                    contentDescription = "navigate Back",
+                    modifier = Modifier.size(31.dp)
+                )
+            }
+        },
+        title = {
+            Column(modifier = Modifier.fillMaxWidth(),
+                horizontalAlignment = Alignment.End) {
+                OutlinedButton(onClick = { onClick() }) {
+                    Text(text = "Save")
+                }
+            }
+            }
+        )
 }
