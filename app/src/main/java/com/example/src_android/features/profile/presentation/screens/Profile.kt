@@ -11,7 +11,8 @@ import com.example.src_android.features.profile.presentation.ProfileUIComponenen
 
 @Composable
 fun Profile(modifier: Modifier) {
-    Column(modifier=modifier.fillMaxSize(), verticalArrangement = Arrangement.SpaceBetween) {
+    Column(modifier = modifier.fillMaxSize(), verticalArrangement = Arrangement.SpaceBetween) {
         ProfileTop(image = "", profile_name = "Revanth Kumar J")
         ProfileBottomCard()
     }
+}
