@@ -7,6 +7,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.src_android.features.home.presentaion.Home
 import com.example.src_android.features.events.presentation.Events
+import com.example.src_android.features.profile.presentation.Edt_Profile
 import com.example.src_android.features.profile.presentation.Profile
 import com.example.src_android.features.projects.presentation.Projects
 
@@ -21,6 +22,10 @@ fun Navigation(modifier: Modifier, navHostController: NavHostController,onChange
        composable("profile"){
            Profile(modifier)
            onChange("profile")
+       }
+       composable("edt_profile"){
+           Edt_Profile(modifier)
+           onChange("edt_profile")
        }
        composable("events"){
            Events(modifier = modifier)

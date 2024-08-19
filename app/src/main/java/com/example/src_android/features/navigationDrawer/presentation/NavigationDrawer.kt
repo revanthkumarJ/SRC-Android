@@ -106,8 +106,7 @@ fun NavigationDrawer(
         ), modifier = Modifier.padding(
             start = 25.dp, top = 9.dp
         ), label = {
-            Column(verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment
-                .CenterHorizontally) {
+            Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement =Arrangement.Center) {
                 Icon(
                     imageVector = Icons.Default.Person,
                     tint = MaterialTheme.colorScheme.primary,
