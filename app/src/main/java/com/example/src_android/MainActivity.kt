@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.rememberDrawerState
@@ -28,10 +27,8 @@ import com.example.src_android.utils.BottomNavigation
 import com.example.src_android.features.navigationDrawer.presentation.NavigationDrawer
 import com.example.src_android.utils.BottomSheet
 import com.example.src_android.utils.OtherTopBar
-import com.example.src_android.utils.ProfileTopBar
 import com.example.src_android.utils.SharedPreference
 import com.example.src_android.utils.TopHomeBar
-import com.example.src_android.utils.edtProfileTopBar
 import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
@@ -94,8 +91,6 @@ class MainActivity : ComponentActivity() {
 
                     Scaffold(
                         modifier = Modifier.fillMaxSize(),
-                        containerColor = MaterialTheme.colorScheme.primaryContainer
-                        ,
                         topBar = {
                             when (route) {
                                 "home" ->
@@ -108,21 +103,6 @@ class MainActivity : ComponentActivity() {
                                             }
                                         }
                                     }
-
-                                "profile" -> ProfileTopBar(onClick = {
-                                    route = "home"
-                                    navHostController.navigate("home")
-                                },
-                                    toEditProfile = {
-                                        route = "edt_profile"
-                                        navHostController.navigate("edt_profile")
-                                    }
-                                )
-                            "edt_profile" -> edtProfileTopBar(onClick = {
-                                    route = "profile"
-                                    navHostController.navigate("profile")
-                                })
-
 
                                 else -> OtherTopBar {
                                     route = "home"

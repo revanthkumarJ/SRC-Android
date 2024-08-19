@@ -1,3 +1,4 @@
+
 package com.example.src_android.features.profile.presentation.screens
 
 import androidx.compose.foundation.layout.Arrangement
@@ -14,4 +15,3 @@ fun Profile(modifier: Modifier) {
         ProfileTop(image = "", profile_name = "Revanth Kumar J")
         ProfileBottomCard()
     }
-}

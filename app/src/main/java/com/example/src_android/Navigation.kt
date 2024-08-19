@@ -7,9 +7,9 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.src_android.features.home.presentaion.Home
 import com.example.src_android.features.events.presentation.Events
+
 import com.example.src_android.features.profile.presentation.screens.Edt_Profile
 import com.example.src_android.features.profile.presentation.screens.Profile
-import com.example.src_android.features.projects.presentation.Projects
 
 @Composable
 fun Navigation(modifier: Modifier, navHostController: NavHostController,onChange:(route : String)
