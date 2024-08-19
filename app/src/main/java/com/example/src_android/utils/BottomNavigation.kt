@@ -38,6 +38,7 @@ fun BottomNavigation(navHostController: NavHostController, onChange: (route: Str
             outlinedImage = painterResource(id = R.drawable.ic_calender_outlined),
             route = "events"
         ),
+
     )
 
     val navBackStackEntry = navHostController.currentBackStackEntryAsState()
