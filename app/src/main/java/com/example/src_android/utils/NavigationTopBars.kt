@@ -4,6 +4,8 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -30,7 +32,7 @@ import com.example.src_android.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TopHomeBar(onClick:()->Unit){
+fun TopHomeBar(onClick: () -> Unit) {
     TopAppBar(
         colors = topAppBarColors(
             containerColor = MaterialTheme.colorScheme.primaryContainer,
@@ -48,22 +50,22 @@ fun TopHomeBar(onClick:()->Unit){
             }
         },
         title = {
-            Column(modifier = Modifier.fillMaxWidth(),
-                horizontalAlignment = Alignment.CenterHorizontally) {
+            Row(modifier = Modifier) {
+                Spacer(modifier = Modifier.fillMaxWidth(0.3f))
                 Image(
                     painter = painterResource(id = R.drawable.src_logo),
                     contentDescription = "Logo",
-                    modifier = Modifier.size(95.dp)
+                    modifier = Modifier.size(75.dp)
                 )
-
             }
+
         }
     )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun OtherTopBar(onClick: () -> Unit){
+fun OtherTopBar(onClick: () -> Unit) {
     TopAppBar(
         colors = topAppBarColors(
             containerColor = MaterialTheme.colorScheme.primaryContainer,
@@ -80,15 +82,15 @@ fun OtherTopBar(onClick: () -> Unit){
             }
         },
         title = {
-            Column(modifier = Modifier.fillMaxWidth(),
-                horizontalAlignment = Alignment.CenterHorizontally) {
+            Row(modifier = Modifier) {
+                Spacer(modifier = Modifier.fillMaxWidth(0.3f))
                 Image(
                     painter = painterResource(id = R.drawable.src_logo),
                     contentDescription = "Logo",
-                    modifier = Modifier.size(95.dp)
+                    modifier = Modifier.size(75.dp)
                 )
-
             }
+
         }
     )
 }

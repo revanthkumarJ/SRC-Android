@@ -7,3 +7,14 @@ data class BottomNavModel(
     val outlinedImage : Painter,
     val route : String
 )
+
+data class CarouselImage(
+    val image : Int,
+    val title : String,
+)
+
+data class News(
+    val image : Int,
+    val title : String,
+    val description : String,
+)
