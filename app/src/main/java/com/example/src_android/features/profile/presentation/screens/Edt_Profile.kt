@@ -1,4 +1,4 @@
-package com.example.src_android.features.profile.presentation
+package com.example.src_android.features.profile.presentation.screens
 
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
