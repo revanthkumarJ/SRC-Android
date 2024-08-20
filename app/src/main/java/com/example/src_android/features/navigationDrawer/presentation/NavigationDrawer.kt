@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
+import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -106,9 +107,13 @@ fun NavigationDrawer(
         ), modifier = Modifier.padding(
             start = 25.dp, top = 9.dp
         ), label = {
-            Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement =Arrangement.Center) {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement =
+                Arrangement.spacedBy(15.dp)
+            ) {
                 Icon(
-                    imageVector = Icons.Default.Person,
+                    imageVector = Icons.Default.Home,
                     tint = MaterialTheme.colorScheme.primary,
                     contentDescription = "Person"
                 )
@@ -124,20 +129,37 @@ fun NavigationDrawer(
             navigate("home")
         })
 
-        NavigationDrawerItem(colors = NavigationDrawerItemDefaults.colors(
-            selectedContainerColor = MaterialTheme.colorScheme.primaryContainer,
-            unselectedIconColor = MaterialTheme.colorScheme.primaryContainer
-        ), modifier = Modifier.padding(start = 25.dp, top = 9.dp), label = {
-            Text(
-                "Profile",
-                color = MaterialTheme.colorScheme.primary,
-                fontWeight = FontWeight.Bold,
-                fontSize = 21.sp
-            )
-        }, selected = true, onClick = {
-            onClick()
-            navigate("profile")
-        })
+        NavigationDrawerItem(
+            colors = NavigationDrawerItemDefaults.colors(
+                selectedContainerColor = MaterialTheme.colorScheme.primaryContainer,
+                unselectedContainerColor = MaterialTheme.colorScheme.primaryContainer,
+            ),
+            modifier = Modifier.padding(start = 25.dp, top = 9.dp),
+            label = {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement =
+                    Arrangement.spacedBy(15.dp)
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Person,
+                        tint = MaterialTheme.colorScheme.primary,
+                        contentDescription = "Person"
+                    )
+                    Text(
+                        "Profile",
+                        color = MaterialTheme.colorScheme.primary,
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 21.sp
+                    )
+                }
+            },
+            selected = true,
+            onClick = {
+                onClick()
+                navigate("profile")
+            }
+        )
         Box(
             modifier = Modifier
                 .padding(start = 50.dp, bottom = 25.dp)

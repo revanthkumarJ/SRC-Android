@@ -34,6 +34,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.src_android.features.home.presentaion.homeComponents.NewsCardItem
 
 @Composable
 fun LatestNews() {
@@ -44,8 +45,7 @@ fun LatestNews() {
         News(R.drawable.src_logo, "Thia is title", "This is description"),
         News(R.drawable.src_logo, "Thia is title", "This is description")
     )
-    val lightBlack = Color(0xFF1A1A1A)
-    val lightBlack1 = Color(0xFFFAF9F6)
+
 
 
     Column(
@@ -63,112 +63,10 @@ fun LatestNews() {
         )
         LazyRow {
             itemsIndexed(news) { index, item ->
-                ElevatedCard(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(500.dp)
-                        .padding(start = 15.dp, top = 25.dp, end = 15.dp),
-                    elevation = CardDefaults.elevatedCardElevation(defaultElevation = 8.dp),
-                    colors = CardDefaults.elevatedCardColors(
-                        containerColor = if(MaterialTheme.colorScheme.primaryContainer == Color
-                            .Black) lightBlack else lightBlack1
-                    )
-                ) {
-                    Column(
-                        modifier = Modifier.fillMaxWidth().padding(15.dp)
-                    ) {
-                        // Row for avatar, title, and subtitle
-                        Row(
-                            verticalAlignment = Alignment.CenterVertically,
-                            horizontalArrangement = Arrangement.spacedBy(15.dp),
-                            modifier = Modifier.fillMaxWidth()
-                        ) {
-                            // Avatar
-                            AvatarImage()
-
-                            // Title and subtitle
-                            Column {
-                                Text(
-                                    text = "Admin",
-                                    style = MaterialTheme.typography.titleMedium,
-                                    fontWeight = FontWeight.Bold,
-                                    color = MaterialTheme.colorScheme.primary
-                                )
-                                Text(
-                                    text = "News",
-                                    style = MaterialTheme.typography.bodyMedium,
-                                    color = Color.Gray
-                                )
-                            }
-                        }
-
-                        Spacer(modifier = Modifier.height(16.dp))
-
-                        Box(
-                            modifier = Modifier
-                                .width(250.dp)
-                                .height(250.dp),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            Image(
-                                painter = painterResource(id = item.image), contentDescription
-                                = "image",
-                                contentScale = ContentScale.Crop
-                            )
-                        }
-
-                        Spacer(modifier = Modifier.height(16.dp))
-                        Text(
-                            text = item.title,
-                            color = MaterialTheme.colorScheme.primary,
-                            fontWeight = FontWeight.Bold
-                        )
-
-                        Text(
-                            text = item.description,
-                            style = MaterialTheme.typography.bodyMedium,
-                            color = Color.Gray,
-                            modifier = Modifier.padding(top = 8.dp)
-                        )
-
-                        Spacer(modifier = Modifier.height(16.dp))
-
-                        Row(
-                            horizontalArrangement = Arrangement.End,
-                            modifier = Modifier.fillMaxWidth()
-                        ) {
-                            OutlinedButton(
-                                onClick = { /* Handle click */ }, shape =
-                                RoundedCornerShape(5.dp)
-                            ) {
-                                Text(
-                                    text = "Know more",
-                                    style = MaterialTheme.typography.bodyMedium.copy(color = MaterialTheme.colorScheme.primary)
-                                )
-                            }
-                        }
-                    }
-                }
+                NewsCardItem(news = item)
             }
         }
     }
 
-
 }
 
-@Composable
-fun AvatarImage() {
-    Box(
-        modifier = Modifier
-            .size(40.dp)
-            .background(MaterialTheme.colorScheme.primaryContainer, CircleShape),
-        contentAlignment = Alignment.Center
-    ) {
-        Text(
-            text = "A",
-            color = MaterialTheme.colorScheme.primary,
-            style = MaterialTheme.typography.bodyLarge,
-            fontWeight = FontWeight.Bold
-        )
-    }
-}

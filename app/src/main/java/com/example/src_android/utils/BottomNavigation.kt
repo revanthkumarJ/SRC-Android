@@ -39,7 +39,7 @@ fun BottomNavigation(navHostController: NavHostController, onChange: (route: Str
             route = "events"
         ),
 
-    )
+        )
 
     val navBackStackEntry = navHostController.currentBackStackEntryAsState()
 
@@ -60,7 +60,9 @@ fun BottomNavigation(navHostController: NavHostController, onChange: (route: Str
 
 
                 colors = NavigationBarItemDefaults.colors(
-                    indicatorColor = Color.Transparent
+                    indicatorColor = Color.Transparent,
+                    unselectedIconColor = Color.Transparent,
+                    selectedIconColor = Color.Transparent
                 )
             )
         }

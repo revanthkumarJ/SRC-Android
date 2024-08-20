@@ -18,3 +18,11 @@ data class News(
     val title : String,
     val description : String,
 )
+
+data class Event(
+    val image : Int,
+    val title : String,
+    val description: String,
+    val date : String,
+    val venue : String,
+)
