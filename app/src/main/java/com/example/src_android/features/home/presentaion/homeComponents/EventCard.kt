@@ -30,7 +30,7 @@ import com.example.src_android.core.Event
 
 @Composable
 fun EventCard(
-    event: Event
+    event: Event,
 ) {
     val lightBlack = Color(0xFF1A1A1A)
     val lightBlack1 = Color(0xFFFAF9F6)
@@ -46,10 +46,7 @@ fun EventCard(
             ) lightBlack else lightBlack1
         )
     ) {
-        Column(
-            modifier = Modifier
-                .background(MaterialTheme.colorScheme.primaryContainer)
-        ) {
+        Column{
             // Event Image
             Image(
                 painter = painterResource(id = event.image),

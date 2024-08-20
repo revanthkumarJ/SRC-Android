@@ -15,8 +15,8 @@ data class CarouselImage(
 
 data class News(
     val image : Int,
-    val title : String,
-    val description : String,
+    var title : String,
+    var description : String,
 )
 
 data class Event(

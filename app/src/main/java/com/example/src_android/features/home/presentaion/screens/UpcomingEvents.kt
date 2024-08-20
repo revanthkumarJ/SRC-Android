@@ -20,15 +20,13 @@ import com.example.src_android.features.home.presentaion.homeComponents.EventCar
 
 @Composable
 fun UpcomingEvents() {
-    val lightBlack = Color(0xFF1A1A1A)
-    val lightBlack1 = Color(0xFFFAF9F6)
     val events = listOf(
         Event(
             image = R.drawable.src_logo,
             title = "Tech Conference 2024",
             date = "Aug 25, 2024",
             venue = "CSE DEPT.",
-            description = "Join us for a day of insightful talks and networking with industry leaders.",
+            description = "Join us for a day of insightful talks and networking with industry leaders.Join us for a day of insightful talks and networking with industry leaders",
         ),
         Event(
             image = R.drawable.src_logo,
@@ -51,7 +49,7 @@ fun UpcomingEvents() {
             modifier = Modifier.padding(horizontal = 15.dp, vertical = 9.dp),
             color = MaterialTheme.colorScheme.primary
         )
-        LazyRow(modifier = Modifier.fillMaxWidth(0.99f)) {
+        LazyRow(modifier = Modifier.fillMaxWidth(0.95f)) {
             itemsIndexed(events) { index, item ->
                 EventCard(
                     event = item
