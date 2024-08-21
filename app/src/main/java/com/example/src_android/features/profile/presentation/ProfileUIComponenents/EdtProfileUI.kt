@@ -12,12 +12,16 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -35,6 +39,7 @@ import coil.compose.rememberImagePainter
 import com.example.src_android.R
 
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun EdtTextFields() {
     var name by remember {
@@ -53,7 +58,17 @@ fun EdtTextFields() {
         mutableStateOf("")
     }
 
-    Column (modifier = Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally){
+    val darkBlue = Color(0xFF1A1A1A)  // Dark blue color
+    val lightGray = Color(0xFFFAF9F6) // Light gray color
+
+    // Conditionally set the containerColor based on primaryContainer
+    val containerColor = if (MaterialTheme.colorScheme.primaryContainer == Color.Black) {
+        lightGray
+    } else {
+        darkBlue
+    }
+
+    Column (modifier = Modifier.fillMaxWidth().padding(horizontal = 15.dp), horizontalAlignment = Alignment.CenterHorizontally){
         TextField(value = name, onValueChange = { name = it }, label = {
             Text(text = "Name")
         },
@@ -63,9 +78,16 @@ fun EdtTextFields() {
                     contentDescription = "Profile Icon",
                     modifier = Modifier.size(26.dp)
                 )
-            }
+            },
+            colors = TextFieldDefaults.textFieldColors(
+                containerColor = Color.Transparent, // Use containerColor for background in Material3
+                focusedIndicatorColor = containerColor, // Remove underline on focus
+
+            ),
+            modifier = Modifier.fillMaxWidth(),
+            singleLine = true
         )
-        Spacer(modifier = Modifier.height(8.dp))
+        Spacer(modifier = Modifier.height(10.dp))
         TextField(
             value = linkdein,
             onValueChange = { linkdein = it },
@@ -76,9 +98,16 @@ fun EdtTextFields() {
                     contentDescription = "LinkedIn Icon",
                     modifier = Modifier.size(30.dp)
                 )
-            }
+            },
+            colors = TextFieldDefaults.textFieldColors(
+                containerColor = Color.Transparent, // Use containerColor for background in Material3
+                focusedIndicatorColor = containerColor, // Remove underline on focus
+
+            ),
+            modifier = Modifier.fillMaxWidth(),
+            singleLine = true
         )
-        Spacer(modifier = Modifier.height(8.dp))
+        Spacer(modifier = Modifier.height(10.dp))
 
         TextField(
             value = github,
@@ -90,9 +119,16 @@ fun EdtTextFields() {
                     contentDescription = "GitHub Icon",
                     modifier = Modifier.size(30.dp)
                 )
-            }
+            },
+            colors = TextFieldDefaults.textFieldColors(
+                containerColor = Color.Transparent, // Use containerColor for background in Material3
+                focusedIndicatorColor = containerColor, // Remove underline on focus
+
+            ),
+            modifier = Modifier.fillMaxWidth(),
+            singleLine = true
         )
-        Spacer(modifier = Modifier.height(8.dp))
+        Spacer(modifier = Modifier.height(10.dp))
 
         TextField(
             value = gfg,
@@ -104,9 +140,16 @@ fun EdtTextFields() {
                     contentDescription = "GFG Icon",
                     modifier = Modifier.size(27.dp)
                 )
-            }
+            },
+            colors = TextFieldDefaults.textFieldColors(
+                containerColor = Color.Transparent, // Use containerColor for background in Material3
+                focusedIndicatorColor = containerColor, // Remove underline on focus
+
+            ),
+            modifier = Modifier.fillMaxWidth(),
+            singleLine = true
         )
-        Spacer(modifier = Modifier.height(8.dp))
+        Spacer(modifier = Modifier.height(10.dp))
 
         TextField(
             value = leetcode,
@@ -118,8 +161,15 @@ fun EdtTextFields() {
                     contentDescription = "LeetCode Icon",
                     modifier = Modifier.size(25.dp)
                 )
-            }
+            },
+            colors = TextFieldDefaults.textFieldColors(
+                containerColor = Color.Transparent, // Use containerColor for background in Material3
+                focusedIndicatorColor = containerColor, // Remove underline on focus
+            ),
+            modifier = Modifier.fillMaxWidth(),
+            singleLine = true
         )
+
     }
 }
 
