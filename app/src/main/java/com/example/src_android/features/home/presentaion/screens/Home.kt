@@ -29,5 +29,6 @@ fun Home(modifier: Modifier){
     ) {
         ImageCarousel()
         LatestNews()
+        UpcomingEvents()
     }
 }

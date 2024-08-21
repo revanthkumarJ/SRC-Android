@@ -26,6 +26,7 @@ import com.example.src_android.core.CarouselImage
 import androidx.compose.material3.Text
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import com.example.src_android.features.home.presentaion.homeComponents.ImageCarouselItem
 
 @Composable
 fun ImageCarousel() {
@@ -42,58 +43,14 @@ fun ImageCarousel() {
         LazyRow(
             modifier = Modifier
                 .height(250.dp)
-                .padding(start = 5.dp, end = 5.dp)
+                .padding(start = 15.dp, end = 5.dp)
         ) {
             itemsIndexed(images) { index, item ->
-                ElevatedCard(
-                    elevation = CardDefaults.cardElevation(
-                        defaultElevation = 6.dp
-                    ),
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(end = 15.dp)
-                        .height(250.dp)
-
-                ) {
-                    Box {
-                        Image(
-                            painter = painterResource(id = item.image),
-                            modifier = Modifier
-                                .fillMaxSize()
-                                .width(350.dp),
-                            contentScale = ContentScale.Crop,
-                            contentDescription = "image"
-                        )
-                        Box(
-                            modifier = Modifier
-                                .height(150.dp)
-                                .width(350.dp)
-                                .background(
-                                    brush = Brush.verticalGradient(
-                                        colors = listOf(
-                                            Color.Transparent,
-                                            Color.Black.copy(alpha = 0.9f)
-                                        )
-                                    )
-                                )
-                                .align(Alignment.BottomCenter)
-                        ) {
-                            Text(
-                                text = item.title,
-                                color = Color.White,
-                                modifier = Modifier
-                                    .padding(start = 25.dp)
-                                    .fillMaxWidth()
-                                    .align(Alignment.CenterStart)
-
-                            )
-                        }
-                    }
-                }
+                ImageCarouselItem(news = item)
             }
-
         }
 
     }
 
 }
+

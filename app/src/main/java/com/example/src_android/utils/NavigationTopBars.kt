@@ -4,6 +4,8 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -29,9 +31,10 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.example.src_android.R
 import androidx.compose.material3.Text
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TopHomeBar(onClick:()->Unit){
+fun TopHomeBar(onClick: () -> Unit) {
     TopAppBar(
         colors = topAppBarColors(
             containerColor = MaterialTheme.colorScheme.primaryContainer,
@@ -49,14 +52,13 @@ fun TopHomeBar(onClick:()->Unit){
             }
         },
         title = {
-            Column(modifier = Modifier.fillMaxWidth(),
-                horizontalAlignment = Alignment.CenterHorizontally) {
+            Row(modifier = Modifier.fillMaxWidth()) {
+                Spacer(modifier = Modifier.fillMaxWidth(0.3f))
                 Image(
                     painter = painterResource(id = R.drawable.src_logo),
                     contentDescription = "Logo",
-                    modifier = Modifier.size(95.dp)
+                    modifier = Modifier.size(75.dp)
                 )
-
             }
         }
     )
@@ -64,7 +66,7 @@ fun TopHomeBar(onClick:()->Unit){
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun OtherTopBar(onClick: () -> Unit){
+fun OtherTopBar(onClick: () -> Unit) {
     TopAppBar(
         colors = topAppBarColors(
             containerColor = MaterialTheme.colorScheme.primaryContainer,
@@ -76,20 +78,20 @@ fun OtherTopBar(onClick: () -> Unit){
                 Icon(
                     imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                     contentDescription = "navigate Back",
-                    modifier = Modifier.size(31.dp)
+                    modifier = Modifier.size(27.dp)
                 )
             }
         },
         title = {
-            Column(modifier = Modifier.fillMaxWidth(),
-                horizontalAlignment = Alignment.CenterHorizontally) {
+            Row(modifier = Modifier.fillMaxWidth()) {
+                Spacer(modifier = Modifier.fillMaxWidth(0.3f))
                 Image(
                     painter = painterResource(id = R.drawable.src_logo),
                     contentDescription = "Logo",
-                    modifier = Modifier.size(95.dp)
+                    modifier = Modifier.size(75.dp)
                 )
-
             }
+
         }
     )
 }
@@ -97,7 +99,7 @@ fun OtherTopBar(onClick: () -> Unit){
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ProfileTopBar(onClick: () -> Unit,toEditProfile:()->Unit){
+fun ProfileTopBar(onClick: () -> Unit, toEditProfile: () -> Unit) {
     TopAppBar(
         colors = topAppBarColors(
             containerColor = MaterialTheme.colorScheme.primaryContainer,
@@ -109,13 +111,15 @@ fun ProfileTopBar(onClick: () -> Unit,toEditProfile:()->Unit){
                 Icon(
                     imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                     contentDescription = "navigate Back",
-                    modifier = Modifier.size(31.dp)
+                    modifier = Modifier.size(27.dp)
                 )
             }
         },
         title = {
-            Column(modifier = Modifier.fillMaxWidth(),
-                horizontalAlignment = Alignment.End) {
+            Column(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalAlignment = Alignment.End
+            ) {
                 OutlinedButton(onClick = { toEditProfile() }) {
                     Text(text = "Edit Profile")
                 }
@@ -127,7 +131,7 @@ fun ProfileTopBar(onClick: () -> Unit,toEditProfile:()->Unit){
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun EdtProfileTopBar(onClick: () -> Unit){
+fun EdtProfileTopBar(onClick: () -> Unit) {
     TopAppBar(
         colors = topAppBarColors(
             containerColor = MaterialTheme.colorScheme.primaryContainer,
@@ -139,17 +143,19 @@ fun EdtProfileTopBar(onClick: () -> Unit){
                 Icon(
                     imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                     contentDescription = "navigate Back",
-                    modifier = Modifier.size(31.dp)
+                    modifier = Modifier.size(27.dp)
                 )
             }
         },
         title = {
-            Column(modifier = Modifier.fillMaxWidth(),
-                horizontalAlignment = Alignment.End) {
+            Column(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalAlignment = Alignment.End
+            ) {
                 OutlinedButton(onClick = { onClick() }) {
                     Text(text = "Save")
                 }
             }
-            }
-        )
+        }
+    )
 }

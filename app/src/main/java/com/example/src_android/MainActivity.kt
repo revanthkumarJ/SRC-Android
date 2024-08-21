@@ -28,6 +28,7 @@ import com.example.src_android.utils.BottomNavigation
 import com.example.src_android.features.navigationDrawer.presentation.NavigationDrawer
 import com.example.src_android.utils.BottomSheet
 import com.example.src_android.utils.EdtProfileTopBar
+import com.example.src_android.utils.NewsBottomSheet
 import com.example.src_android.utils.OtherTopBar
 import com.example.src_android.utils.ProfileTopBar
 import com.example.src_android.utils.SharedPreference
@@ -61,7 +62,11 @@ class MainActivity : ComponentActivity() {
                 }
                 val sheetState = rememberModalBottomSheetState()
                 var showBottomSheet by remember { mutableStateOf(false) }
-
+//                var newsBottomSheet by remember {
+//                    mutableStateOf(false)
+//                }
+//                var newsBottomSheetState =
+//                    rememberModalBottomSheetState(skipPartiallyExpanded = false)
                 ModalNavigationDrawer(
                     drawerState = drawerState,
                     drawerContent = {
@@ -108,6 +113,7 @@ class MainActivity : ComponentActivity() {
                                             }
                                         }
                                     }
+
                                 "profile" -> ProfileTopBar(onClick = {
                                     route = "home"
                                     navHostController.navigate("home")
@@ -117,10 +123,12 @@ class MainActivity : ComponentActivity() {
                                         navHostController.navigate("edt_profile")
                                     }
                                 )
+
                                 "edt_profile" -> EdtProfileTopBar(onClick = {
                                     route = "profile"
                                     navHostController.navigate("profile")
-                                    })
+                                })
+
                                 else -> OtherTopBar {
                                     route = "home"
                                     navHostController.navigate("home")
@@ -149,6 +157,7 @@ class MainActivity : ComponentActivity() {
                                 showBottomSheet = !showBottomSheet
                             }
                         }
+
 
                     }
                 }
