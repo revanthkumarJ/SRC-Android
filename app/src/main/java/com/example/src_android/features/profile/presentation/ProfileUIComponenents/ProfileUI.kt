@@ -95,25 +95,29 @@ fun ProfileBottomCard()
                 ImageButton(
                     painter = painterResource(id = R.drawable.linkdein_white),
                     url = "https://github.com/revanthkumarJ/SRC-Android",
-                    contentDescription = "Image 1"
+                    contentDescription = "Image 1",
+                    size = 35
                 )
 
                 ImageButton(
                     painter = painterResource(id = R.drawable.github_white),
                     url = "https://example.com/link2",
-                    contentDescription = "Image 2"
+                    contentDescription = "Image 2",
+                    size = 35
                 )
 
                 ImageButton(
                     painter = painterResource(id = R.drawable.gfg_icon_white),
                     url = "https://example.com/link3",
-                    contentDescription = "Image 3"
+                    contentDescription = "Image 3",
+                    size = 35
                 )
 
                 ImageButton(
                     painter = painterResource(id = R.drawable.leetcode_white),
                     url = "https://example.com/link4",
-                    contentDescription = "Image 4"
+                    contentDescription = "Image 4",
+                    size = 35
                 )
             }
         }
@@ -121,14 +125,14 @@ fun ProfileBottomCard()
 }
 
 @Composable
-fun ImageButton(painter: Painter, url: String, contentDescription: String?) {
+fun ImageButton(painter: Painter, url: String, contentDescription: String?, size:Int) {
     val context = LocalContext.current
 
     Image(
         painter = painter,
         contentDescription = contentDescription,
         modifier = Modifier
-            .size(35.dp)
+            .size(size.dp)
             .clickable {
                 val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
                 context.startActivity(intent)

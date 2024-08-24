@@ -1,6 +1,5 @@
 package com.example.src_android.features.navigationDrawer.presentation
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -9,12 +8,11 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Person
-import androidx.compose.material3.Button
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -22,17 +20,14 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalDrawerSheet
 import androidx.compose.material3.NavigationDrawerItem
 import androidx.compose.material3.NavigationDrawerItemDefaults
-import androidx.compose.material3.OutlinedButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -81,50 +76,36 @@ fun NavigationDrawer(
                         .size(55.dp)
                         .padding(bottom = 5.dp)
                 )
-                if (loginStatus) {
-                    Text(
-                        text = "email@gmail.com",
-                        fontSize = 16.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = MaterialTheme.colorScheme.primary,
-                        modifier = Modifier.padding(top = 1.dp)
-                    )
-                    Text(
-                        text = "Username",
-                        fontSize = 14.sp,
-                        color = MaterialTheme.colorScheme.primary,
-                        modifier = Modifier.padding(top = 1.dp)
-                    )
-                }else {
-                    TextButton(onClick = { /*TODO*/ }, shape = RoundedCornerShape(5.dp)) {
-                        Text(
-                            text = "Login",
-                            fontWeight = FontWeight.Bold,
-                            fontSize = 19.sp,
-                            color = Color.Gray
-                        )
-                    }
-                }
+
+                Text(
+                    text = "email@gmail.com",
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = MaterialTheme.colorScheme.primary,
+                    modifier = Modifier.padding(top = 1.dp)
+                )
+                Text(
+                    text = "Username",
+                    fontSize = 14.sp,
+                    color = MaterialTheme.colorScheme.primary,
+                    modifier = Modifier.padding(top = 1.dp)
+                )
             }
-            if (loginStatus) {
-
-
-                IconButton(onClick = { showBottomSheet() }) {
-                    Icon(
-                        painter = painterResource(id = R.drawable.ic_user_options),
-                        contentDescription = "User Options",
-                        modifier = Modifier.size(25.dp)
-                    )
-                }
+//            if (loginStatus) {
+            IconButton(onClick = { showBottomSheet() }) {
+                Icon(
+                    painter = painterResource(id = R.drawable.ic_user_options),
+                    contentDescription = "User Options",
+                    modifier = Modifier.size(25.dp)
+                )
             }
-
+//            }
         }
         HorizontalDivider(modifier = Modifier.padding(top = 5.dp, bottom = 5.dp))
         NavigationDrawerItem(colors = NavigationDrawerItemDefaults.colors(
             selectedContainerColor = MaterialTheme.colorScheme.primaryContainer,
-            unselectedIconColor = MaterialTheme.colorScheme.primaryContainer,
-
-            ), modifier = Modifier.padding(
+            unselectedIconColor = MaterialTheme.colorScheme.primaryContainer
+        ), modifier = Modifier.padding(
             start = 25.dp, top = 9.dp
         ), label = {
             Row(
@@ -154,10 +135,7 @@ fun NavigationDrawer(
                 selectedContainerColor = MaterialTheme.colorScheme.primaryContainer,
                 unselectedContainerColor = MaterialTheme.colorScheme.primaryContainer,
             ),
-            modifier = Modifier.padding(
-                start = 25.dp,
-                top = 9.dp
-            ),
+            modifier = Modifier.padding(start = 25.dp, top = 9.dp),
             label = {
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
@@ -183,6 +161,72 @@ fun NavigationDrawer(
                 navigate("profile")
             }
         )
+
+        NavigationDrawerItem(
+            colors = NavigationDrawerItemDefaults.colors(
+                selectedContainerColor = MaterialTheme.colorScheme.primaryContainer,
+                unselectedContainerColor = MaterialTheme.colorScheme.primaryContainer,
+            ),
+            modifier = Modifier.padding(start = 25.dp, top = 9.dp),
+            label = {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement =
+                    Arrangement.spacedBy(15.dp)
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Info,
+                        tint = MaterialTheme.colorScheme.primary,
+                        contentDescription = "Person"
+                    )
+                    Text(
+                        "Know More",
+                        color = MaterialTheme.colorScheme.primary,
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 21.sp
+                    )
+                }
+            },
+            selected = true,
+            onClick = {
+                onClick()
+                navigate("about")
+            }
+        )
+
+        NavigationDrawerItem(
+            colors = NavigationDrawerItemDefaults.colors(
+                selectedContainerColor = MaterialTheme.colorScheme.primaryContainer,
+                unselectedContainerColor = MaterialTheme.colorScheme.primaryContainer,
+            ),
+            modifier = Modifier.padding(start = 25.dp, top = 9.dp),
+            label = {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement =
+                    Arrangement.spacedBy(15.dp)
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Info,
+                        tint = MaterialTheme.colorScheme.primary,
+                        contentDescription = "Person"
+                    )
+                    Text(
+                        "Admin",
+                        color = MaterialTheme.colorScheme.primary,
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 21.sp
+                    )
+                }
+            },
+            selected = true,
+            onClick = {
+                onClick()
+                navigate("admin")
+            }
+        )
+
+
         Box(
             modifier = Modifier
                 .padding(start = 50.dp, bottom = 25.dp)

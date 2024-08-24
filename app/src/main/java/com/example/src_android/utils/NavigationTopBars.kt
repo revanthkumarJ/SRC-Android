@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.AccountCircle
@@ -121,7 +120,7 @@ fun ProfileTopBar(onClick: () -> Unit, toEditProfile: () -> Unit) {
                 modifier = Modifier.fillMaxWidth(),
                 horizontalAlignment = Alignment.End
             ) {
-                OutlinedButton(onClick = { toEditProfile() }, shape = RoundedCornerShape(5.dp)) {
+                OutlinedButton(onClick = { toEditProfile() }) {
                     Text(text = "Edit Profile")
                 }
             }
@@ -153,10 +152,12 @@ fun EdtProfileTopBar(onClick: () -> Unit) {
                 modifier = Modifier.fillMaxWidth(),
                 horizontalAlignment = Alignment.End
             ) {
-                OutlinedButton(onClick = { onClick() }, shape = RoundedCornerShape(5.dp)) {
+                OutlinedButton(onClick = { onClick() }) {
                     Text(text = "Save")
                 }
             }
         }
     )
 }
+
+

@@ -38,7 +38,7 @@ fun EventCard(
         shape = RoundedCornerShape(8.dp),
         elevation = CardDefaults.elevatedCardElevation(8.dp),
         modifier = Modifier
-            .width(350.dp)
+            .width(375.dp)
             .padding(16.dp),
         colors = CardDefaults.elevatedCardColors(
             containerColor = if (MaterialTheme.colorScheme.primaryContainer == Color
@@ -69,7 +69,6 @@ fun EventCard(
                     .padding(16.dp)
 
             )
-
 
             // Event Date and Venue
             Row(
@@ -117,7 +116,7 @@ fun EventCard(
                     .padding(16.dp)
                     .fillMaxWidth()
             )
-//            Spacer(modifier = Modifier.weight(1f))
+
             // See More Button
             OutlinedButton(
                 onClick = {/* */ },
