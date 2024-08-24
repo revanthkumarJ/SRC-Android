@@ -2,6 +2,9 @@ package com.example.src_android.utils
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.size
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Person
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
@@ -9,7 +12,7 @@ import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
@@ -52,15 +55,21 @@ fun BottomNavigation(navHostController: NavHostController, onChange: (route: Str
                         painter = if (selected) it.filledImage else it.outlinedImage,
                         contentDescription = "Route",
                         modifier = Modifier.size(25.dp),
-                        colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.primary)
                     )
                 },
+
+
                 colors = NavigationBarItemDefaults.colors(
                     indicatorColor = Color.Transparent,
-                ),
+                    unselectedIconColor = Color.Transparent,
+                    selectedIconColor = Color.Transparent
+                )
             )
         }
     }
 }
 
 
+//fun Home(){
+//    Icon(imageVector = Icons.Default.Person, contentDescription = "person")
+//}

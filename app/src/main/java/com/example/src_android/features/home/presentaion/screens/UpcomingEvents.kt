@@ -33,7 +33,7 @@ fun UpcomingEvents() {
             title = "Tech Conference 2024",
             date = "Aug 25, 2024",
             venue = "Computer center",
-            description = "Join us for a day of insightful talks and networking with industry leaders.Join us for a day of insightful talks and networking with industry leaders",
+            description = "Join us for a day of insightful talks and networking with industry leaders.",
         )
     )
 
