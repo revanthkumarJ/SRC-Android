@@ -128,34 +128,7 @@ class MainActivity : ComponentActivity() {
                                     route = "profile"
                                     navHostController.navigate("profile")
                                 })
-                                "carousel"-> OtherTopBar(onClick = {
-                                    route = "admin"
-                                    navHostController.navigate("admin")
-                                })
-                                "domain"-> OtherTopBar(onClick = {
-                                    route = "admin"
-                                    navHostController.navigate("admin")
-                                })
-                                "news"-> OtherTopBar(onClick = {
-                                    route = "admin"
-                                    navHostController.navigate("admin")
-                                })
-                                "official"-> OtherTopBar(onClick = {
-                                    route = "admin"
-                                    navHostController.navigate("admin")
-                                })
-                                "testimonial"-> OtherTopBar(onClick = {
-                                    route = "admin"
-                                    navHostController.navigate("admin")
-                                })
-                                "makecr"-> OtherTopBar(onClick = {
-                                    route = "admin"
-                                    navHostController.navigate("admin")
-                                })
-                                "makecoordinator"-> OtherTopBar(onClick = {
-                                    route = "admin"
-                                    navHostController.navigate("admin")
-                                })
+
                                 else -> OtherTopBar {
                                     route = "home"
                                     navHostController.navigate("home")

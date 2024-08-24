@@ -26,3 +26,9 @@ data class Event(
     val date : String,
     val venue : String,
 )
+
+data class Domain(
+    val name : String,
+    val description: String,
+    val image : Int
+)

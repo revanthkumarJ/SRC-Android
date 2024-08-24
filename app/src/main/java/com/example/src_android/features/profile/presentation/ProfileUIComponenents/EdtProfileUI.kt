@@ -14,11 +14,12 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
@@ -35,7 +36,6 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
-import coil.compose.rememberImagePainter
 import com.example.src_android.R
 
 
@@ -68,107 +68,118 @@ fun EdtTextFields() {
         darkBlue
     }
 
-    Column (modifier = Modifier.fillMaxWidth().padding(horizontal = 15.dp), horizontalAlignment = Alignment.CenterHorizontally){
-        TextField(value = name, onValueChange = { name = it }, label = {
-            Text(text = "Name")
-        },
-            leadingIcon = {
-                Icon(
-                    painter = painterResource(id = R.drawable.ic_profile_filled),
-                    contentDescription = "Profile Icon",
-                    modifier = Modifier.size(26.dp)
-                )
-            },
-            colors = TextFieldDefaults.textFieldColors(
-                containerColor = Color.Transparent, // Use containerColor for background in Material3
-                focusedIndicatorColor = containerColor, // Remove underline on focus
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(horizontal = 15.dp),
+        contentAlignment = Alignment.Center
+    ) {
+        Column {
+            TextField(
+                value = name,
+                onValueChange = { name = it },
+                label = {
+                    Text(text = "Name")
+                },
+                leadingIcon = {
+                    Icon(
+                        painter = painterResource(id = R.drawable.ic_profile_filled),
+                        contentDescription = "Profile Icon",
+                        modifier = Modifier.size(26.dp)
+                    )
+                },
+                colors = TextFieldDefaults.textFieldColors(
+                    containerColor = Color.Transparent, // Use containerColor for background in Material3
+                    focusedIndicatorColor = containerColor, // Remove underline on focus
 
-            ),
-            modifier = Modifier.fillMaxWidth(),
-            singleLine = true
-        )
-        Spacer(modifier = Modifier.height(10.dp))
-        TextField(
-            value = linkdein,
-            onValueChange = { linkdein = it },
-            label = { Text(text = "LinkedIn") },
-            leadingIcon = {
-                Icon(
-                    painter = painterResource(id = R.drawable.linkdein_white),
-                    contentDescription = "LinkedIn Icon",
-                    modifier = Modifier.size(30.dp)
-                )
-            },
-            colors = TextFieldDefaults.textFieldColors(
-                containerColor = Color.Transparent, // Use containerColor for background in Material3
-                focusedIndicatorColor = containerColor, // Remove underline on focus
+                ),
+                modifier = Modifier.fillMaxWidth(),
+                singleLine = true
+            )
+            Spacer(modifier = Modifier.height(10.dp))
+            TextField(
+                value = linkdein,
+                onValueChange = { linkdein = it },
+                label = { Text(text = "LinkedIn") },
+                leadingIcon = {
+                    Icon(
+                        painter = painterResource(id = R.drawable.linkdein_white),
+                        contentDescription = "LinkedIn Icon",
+                        modifier = Modifier.size(30.dp)
+                    )
+                },
+                colors = TextFieldDefaults.textFieldColors(
+                    containerColor = Color.Transparent, // Use containerColor for background in Material3
+                    focusedIndicatorColor = containerColor, // Remove underline on focus
 
-            ),
-            modifier = Modifier.fillMaxWidth(),
-            singleLine = true
-        )
-        Spacer(modifier = Modifier.height(10.dp))
+                ),
+                modifier = Modifier.fillMaxWidth(),
+                singleLine = true
+            )
+            Spacer(modifier = Modifier.height(10.dp))
 
-        TextField(
-            value = github,
-            onValueChange = { github = it },
-            label = { Text(text = "GitHub") },
-            leadingIcon = {
-                Icon(
-                    painter = painterResource(id = R.drawable.github_white),
-                    contentDescription = "GitHub Icon",
-                    modifier = Modifier.size(30.dp)
-                )
-            },
-            colors = TextFieldDefaults.textFieldColors(
-                containerColor = Color.Transparent, // Use containerColor for background in Material3
-                focusedIndicatorColor = containerColor, // Remove underline on focus
+            TextField(
+                value = github,
+                onValueChange = { github = it },
+                label = { Text(text = "GitHub") },
+                leadingIcon = {
+                    Icon(
+                        painter = painterResource(id = R.drawable.github_white),
+                        contentDescription = "GitHub Icon",
+                        modifier = Modifier.size(30.dp)
+                    )
+                },
+                colors = TextFieldDefaults.textFieldColors(
+                    containerColor = Color.Transparent, // Use containerColor for background in Material3
+                    focusedIndicatorColor = containerColor, // Remove underline on focus
 
-            ),
-            modifier = Modifier.fillMaxWidth(),
-            singleLine = true
-        )
-        Spacer(modifier = Modifier.height(10.dp))
+                ),
+                modifier = Modifier.fillMaxWidth(),
+                singleLine = true
+            )
+            Spacer(modifier = Modifier.height(10.dp))
 
-        TextField(
-            value = gfg,
-            onValueChange = { gfg = it },
-            label = { Text(text = "GFG") },
-            leadingIcon = {
-                Icon(
-                    painter = painterResource(id = R.drawable.gfg_icon_white),
-                    contentDescription = "GFG Icon",
-                    modifier = Modifier.size(27.dp)
-                )
-            },
-            colors = TextFieldDefaults.textFieldColors(
-                containerColor = Color.Transparent, // Use containerColor for background in Material3
-                focusedIndicatorColor = containerColor, // Remove underline on focus
+            TextField(
+                value = gfg,
+                onValueChange = { gfg = it },
+                label = { Text(text = "GFG") },
+                leadingIcon = {
+                    Icon(
+                        painter = painterResource(id = R.drawable.gfg_icon_white),
+                        contentDescription = "GFG Icon",
+                        modifier = Modifier.size(27.dp)
+                    )
+                },
+                colors = TextFieldDefaults.textFieldColors(
+                    containerColor = Color.Transparent, // Use containerColor for background in Material3
+                    focusedIndicatorColor = containerColor, // Remove underline on focus
 
-            ),
-            modifier = Modifier.fillMaxWidth(),
-            singleLine = true
-        )
-        Spacer(modifier = Modifier.height(10.dp))
+                ),
+                modifier = Modifier.fillMaxWidth(),
+                singleLine = true
+            )
+            Spacer(modifier = Modifier.height(10.dp))
 
-        TextField(
-            value = leetcode,
-            onValueChange = { leetcode = it },
-            label = { Text(text = "LeetCode") },
-            leadingIcon = {
-                Icon(
-                    painter = painterResource(id = R.drawable.leetcode_white),
-                    contentDescription = "LeetCode Icon",
-                    modifier = Modifier.size(25.dp)
-                )
-            },
-            colors = TextFieldDefaults.textFieldColors(
-                containerColor = Color.Transparent, // Use containerColor for background in Material3
-                focusedIndicatorColor = containerColor, // Remove underline on focus
-            ),
-            modifier = Modifier.fillMaxWidth(),
-            singleLine = true
-        )
+            TextField(
+                value = leetcode,
+                onValueChange = { leetcode = it },
+                label = { Text(text = "LeetCode") },
+                leadingIcon = {
+                    Icon(
+                        painter = painterResource(id = R.drawable.leetcode_white),
+                        contentDescription = "LeetCode Icon",
+                        modifier = Modifier.size(25.dp)
+                    )
+                },
+                colors = TextFieldDefaults.textFieldColors(
+                    containerColor = Color.Transparent, // Use containerColor for background in Material3
+                    focusedIndicatorColor = containerColor, // Remove underline on focus
+                ),
+                modifier = Modifier.fillMaxWidth(),
+                singleLine = true
+            )
+        }
+
 
     }
 }

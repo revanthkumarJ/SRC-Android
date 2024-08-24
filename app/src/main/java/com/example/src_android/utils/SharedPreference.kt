@@ -19,7 +19,7 @@ class SharedPreference(context: Context) {
     }
 
     fun getLoginStatus() : LoginStatus{
-        val isLogged = sharedPreference.getBoolean("loginStatus",false)
+        val isLogged = sharedPreference.getBoolean("loginStatus",true)
         return LoginStatus(isLogged)
     }
     fun setLoggedStatus(isLogged : Boolean){
@@ -56,6 +56,16 @@ class SharedPreference(context: Context) {
         editor.putString("authToken",authToken)
         editor.commit()
     }
+
+    fun getIsAdmin() : IsAdmin{
+        val isAdmin = sharedPreference.getBoolean("isAdmin",false);
+        return IsAdmin(isAdmin)
+    }
+
+    fun setAdmin(isAdmin : Boolean){
+        editor.putBoolean("isAdmin",isAdmin)
+        editor.commit()
+    }
 }
 
 data class LoginStatus(
@@ -72,4 +82,7 @@ data class AuthToken(
 )
 data class ThemePreference(
     val mode : Boolean
+)
+data class IsAdmin(
+    val isAdmin : Boolean
 )
