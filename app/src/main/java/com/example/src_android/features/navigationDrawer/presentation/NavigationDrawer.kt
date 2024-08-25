@@ -194,39 +194,6 @@ fun NavigationDrawer(
             }
         )
 
-        NavigationDrawerItem(
-            colors = NavigationDrawerItemDefaults.colors(
-                selectedContainerColor = MaterialTheme.colorScheme.primaryContainer,
-                unselectedContainerColor = MaterialTheme.colorScheme.primaryContainer,
-            ),
-            modifier = Modifier.padding(start = 25.dp, top = 9.dp),
-            label = {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement =
-                    Arrangement.spacedBy(15.dp)
-                ) {
-                    Icon(
-                        imageVector = Icons.Default.Info,
-                        tint = MaterialTheme.colorScheme.primary,
-                        contentDescription = "Person"
-                    )
-                    Text(
-                        "Admin",
-                        color = MaterialTheme.colorScheme.primary,
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 21.sp
-                    )
-                }
-            },
-            selected = true,
-            onClick = {
-                onClick()
-                navigate("admin")
-            }
-        )
-
-
         Box(
             modifier = Modifier
                 .padding(start = 50.dp, bottom = 25.dp)

@@ -1,4 +1,4 @@
-package com.example.src_android.Admin.SubPages.HomeUI
+package com.example.src_android.features.Admin.presentation.SubPages.HomeUI
 
 import android.net.Uri
 import android.util.Log

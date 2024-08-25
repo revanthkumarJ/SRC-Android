@@ -1,4 +1,5 @@
-package com.example.src_android.Admin.SubPages.AboutUsUI
+package com.example.src_android.features.Admin.presentation.SubPages.AboutUsUI
+
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -18,11 +19,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MakeCoordinatorUI(modifier: Modifier)
+fun MakeCRUI(modifier: Modifier)
 {
     val containerColor = if (MaterialTheme.colorScheme.primaryContainer == Color.Black) {
         Color(0xFFFAF9F6)
@@ -54,7 +54,7 @@ fun MakeCoordinatorUI(modifier: Modifier)
         OutlinedButton(
             onClick = {  }
         ) {
-            Text("Make Coordinator")
+            Text("Make CR")
         }
     }
 }

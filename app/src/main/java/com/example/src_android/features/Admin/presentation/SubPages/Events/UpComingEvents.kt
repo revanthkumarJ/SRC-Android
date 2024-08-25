@@ -1,4 +1,4 @@
-package com.example.src_android.Admin.SubPages.Events
+package com.example.src_android.features.Admin.presentation.SubPages.Events
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier

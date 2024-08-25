@@ -1,4 +1,4 @@
-package com.example.src_android.Admin.SubPages.HomeUI
+package com.example.src_android.features.Admin.presentation.SubPages.HomeUI
 
 import android.net.Uri
 import android.util.Log
@@ -204,7 +204,12 @@ fun logCarouselData(name: String, description: String, domain: String, imageUri:
 @Composable
 fun Carousel(modifier: Modifier)
 {
-    var array= listOf(CarouselUIData(name = "Revanth", description = "This is the description of Domain and Details", image = "", domain = "App"),CarouselUIData(name = "Revanth", description = "Random", image = "", domain = "App"),CarouselUIData(name = "Revanth", description = "Random", image = "", domain = "App"),CarouselUIData(name = "Revanth", description = "Random", image = "", domain = "App"))
+    var array= listOf(
+        CarouselUIData(name = "Revanth", description = "This is the description of Domain and Details", image = "", domain = "App"),
+        CarouselUIData(name = "Revanth", description = "Random", image = "", domain = "App"),
+        CarouselUIData(name = "Revanth", description = "Random", image = "", domain = "App"),
+        CarouselUIData(name = "Revanth", description = "Random", image = "", domain = "App")
+    )
 
     Column(modifier=modifier) {
         LazyRow(
