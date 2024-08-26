@@ -52,15 +52,12 @@ fun ProfileTop(image: String, profile_name: String) {
 @Composable
 fun ProfileBottomCard()
 {
-    val darkBlue = Color(0xFF1A1A1A)  // Dark blue color
-    val lightGray = Color(0xFFFAF9F6) // Light gray color
-
-    // Conditionally set the containerColor based on primaryContainer
     val containerColor = if (MaterialTheme.colorScheme.primaryContainer == Color.Black) {
-        darkBlue
+        Color(0xFF1A1A1A)
     } else {
-        lightGray
+        Color(0xFFFAF9F6)
     }
+
     Card(
         modifier = Modifier
             .padding(horizontal = 16.dp, vertical = 25.dp)

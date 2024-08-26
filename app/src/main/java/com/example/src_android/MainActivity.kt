@@ -68,6 +68,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.src_android.core.AdminOptions
+import com.example.src_android.features.Buttons.FloatingPointButton
 import com.example.src_android.utils.AdminBottomSheet
 import kotlinx.coroutines.CoroutineScope
 
@@ -134,6 +135,36 @@ fun MainContent() {
                     if (route == "home") {
                         FabMenu(isMenuOpen) { isMenuOpen = !isMenuOpen }
                     }
+                    else if(route == "official")
+                    {
+                        FloatingPointButton {
+                            navigateTo(navHostController = navHostController, "official input")
+                        }
+                    }
+                    else if(route == "testimonial")
+                    {
+                        FloatingPointButton {
+                            navigateTo(navHostController = navHostController, "testimonial input")
+                        }
+                    }
+                    else if(route == "carousel")
+                    {
+                        FloatingPointButton {
+                            navigateTo(navHostController = navHostController, "carousel input")
+                        }
+                    }
+                    else if(route == "domain")
+                    {
+                        FloatingPointButton {
+                            navigateTo(navHostController = navHostController, "domain input")
+                        }
+                    }
+                    else if(route == "news")
+                    {
+                        FloatingPointButton {
+                            navigateTo(navHostController = navHostController, "news input")
+                        }
+                    }
                 }
             ) { innerPadding ->
                 Navigation(modifier = Modifier.padding(innerPadding), navHostController) {
@@ -196,7 +227,11 @@ fun TopAppBar(
                     "profile"
                 )
             })
-
+            "carousel input"->OtherTopBar(onClick = { navigateTo(navHostController, "carousel") })
+            "domain input"->OtherTopBar(onClick = { navigateTo(navHostController, "domain") })
+            "news input"->OtherTopBar(onClick = { navigateTo(navHostController, "news") })
+            "official input"->OtherTopBar(onClick = { navigateTo(navHostController, "official") })
+            "testimonial input"->OtherTopBar(onClick = { navigateTo(navHostController, "testimonial") })
             else -> OtherTopBar(onClick = { navigateTo(navHostController, "home") })
         }
     }
@@ -319,7 +354,7 @@ fun getAdminList(option: String): List<AdminOptions> = when (option) {
     )
 
     "Events" -> listOf(
-        AdminOptions("Upcoming Events", "upEvents"),
+        AdminOptions("Upcoming Events", "upcoming events"),
         AdminOptions("Completed Events", "comEvents")
     )
 

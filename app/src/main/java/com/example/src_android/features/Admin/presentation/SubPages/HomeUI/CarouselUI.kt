@@ -27,8 +27,10 @@ import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -55,6 +57,7 @@ import coil.compose.rememberAsyncImagePainter
 import coil.compose.rememberImagePainter
 import coil.request.ImageRequest
 import com.example.src_android.R
+import com.example.src_android.features.Buttons.EditAndDeleteButtons
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -94,10 +97,10 @@ fun CarouselInput(modifier: Modifier = Modifier) {
             onValueChange = { name = it },
             label = { Text("Name") },
             modifier = Modifier.fillMaxWidth(),
-            colors = TextFieldDefaults.textFieldColors(
-                containerColor = Color.Transparent, // Use containerColor for background in Material3
-                focusedIndicatorColor = containerColor, // Remove underline on focus
-
+            colors = TextFieldDefaults.colors(
+                focusedContainerColor = Color.Transparent,
+                unfocusedContainerColor = Color.Transparent,
+                disabledContainerColor = Color.Transparent,
             )
         )
         Spacer(modifier = Modifier.height(16.dp))
@@ -111,10 +114,10 @@ fun CarouselInput(modifier: Modifier = Modifier) {
                 .fillMaxWidth()
                 .height(150.dp),
             maxLines = 5,
-            colors = TextFieldDefaults.textFieldColors(
-                containerColor = Color.Transparent, // Use containerColor for background in Material3
-                focusedIndicatorColor = containerColor, // Remove underline on focus
-
+            colors = TextFieldDefaults.colors(
+                focusedContainerColor = Color.Transparent,
+                unfocusedContainerColor = Color.Transparent,
+                disabledContainerColor = Color.Transparent,
             )
         )
         Spacer(modifier = Modifier.height(16.dp))
@@ -162,10 +165,10 @@ fun CarouselInput(modifier: Modifier = Modifier) {
         // Add Carousel Button
         OutlinedButton(
             onClick = {
-                logCarouselData(name, description, selectedDomain, imageUri)
+
             }
         ) {
-            Text("Add Carousel", fontSize = 18.sp, color = Color.White)
+            Text("Add Carousel", fontSize = 18.sp)
         }
     }
 }
@@ -195,10 +198,6 @@ fun DomainDropdown(domains: List<String>, selectedDomain: String, onDomainSelect
     }
 }
 
-// Log carousel data
-fun logCarouselData(name: String, description: String, domain: String, imageUri: Uri?) {
-    Log.i("Relevant","$name $description $imageUri")
-}
 
 
 @Composable
@@ -243,11 +242,19 @@ fun CarouselUI(
     onDeleteClick: () -> Unit,
     defaultImageRes: Int // Resource ID of the default image
 ) {
-    Card(
+    val lightBlack = Color(0xFF1A1A1A)
+    val lightBlack1 = Color(0xFFFAF9F6)
+    ElevatedCard(
         modifier = Modifier
             .padding(16.dp)
             .fillMaxWidth(),
-        shape = RoundedCornerShape(16.dp)
+        elevation = CardDefaults.elevatedCardElevation(8.dp),
+        shape = RoundedCornerShape(16.dp),
+        colors = CardDefaults.elevatedCardColors(
+            containerColor = if (MaterialTheme.colorScheme.primaryContainer == Color
+                    .Black
+            ) lightBlack else lightBlack1
+        )
     ) {
         Column(
             modifier = Modifier
@@ -299,44 +306,8 @@ fun CarouselUI(
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // Buttons: Edit and Delete
-            Row(
-                modifier = Modifier.width(300.dp),
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                // Edit Button with Icon on the right
-                Button(
-                    onClick = onEditClick,
-                    modifier = Modifier.weight(1f)
-                ) {
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        Text(text = "Edit")
-                        Spacer(modifier = Modifier.width(8.dp)) // Space between text and icon
-                        Icon(
-                            imageVector = Icons.Default.Edit,
-                            contentDescription = "Edit"
-                        )
-                    }
-                }
+            EditAndDeleteButtons(onEditClick = onEditClick,onDeleteClick=onDeleteClick)
 
-                Spacer(modifier = Modifier.width(16.dp))
-
-                // Delete Button with Icon on the right
-                Button(
-                    onClick = onDeleteClick,
-                    modifier = Modifier.weight(1f),
-                    colors = ButtonDefaults.buttonColors(containerColor = Color.Red)
-                ) {
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        Text(text = "Delete")
-                        Spacer(modifier = Modifier.width(8.dp)) // Space between text and icon
-                        Icon(
-                            imageVector = Icons.Default.Delete,
-                            contentDescription = "Delete"
-                        )
-                    }
-                }
-            }
 
         }
     }

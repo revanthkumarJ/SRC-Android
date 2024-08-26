@@ -1,21 +1,35 @@
 package com.example.src_android.features.Admin.presentation.SubPages.HomeUI
 
+import android.content.Intent
 import android.net.Uri
 import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Edit
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
@@ -31,15 +45,126 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
 import com.example.src_android.R
+import com.example.src_android.features.Buttons.EditAndDeleteButtons
+
+
+@Composable
+fun News(modifier: Modifier)
+{
+
+    val array= listOf(NewsUIData(name = "Latest News", description = "This is a description", link = "https://www.google.com"),NewsUIData(name = "Latest News", description = "This is a description", link = "https://www.google.com"))
+
+    Column(modifier=modifier) {
+        LazyRow(
+        ) {
+            itemsIndexed(array)
+            {
+                    index, item ->
+                NewsUI(
+                    name = item.name,
+                    description = item.description,
+                    onEditClick = { /*TODO*/ },
+                    onDeleteClick = { /*TODO*/ },
+                    link = ""
+                )
+            }
+        }
+    }
+}
+
+@Composable
+fun NewsUI(
+    name: String,
+    description: String,
+    link: String,
+    onEditClick: () -> Unit,
+    onDeleteClick: () -> Unit
+) {
+    val lightBlack = Color(0xFF1A1A1A)
+    val lightBlack1 = Color(0xFFFAF9F6)
+    ElevatedCard(
+        modifier = Modifier
+            .padding(16.dp)
+            .fillMaxWidth(),
+        elevation = CardDefaults.elevatedCardElevation(8.dp),
+        shape = RoundedCornerShape(16.dp),
+        colors = CardDefaults.elevatedCardColors(
+            containerColor = if (MaterialTheme.colorScheme.primaryContainer == Color
+                    .Black
+            ) lightBlack else lightBlack1
+        )
+    ) {
+        val context = LocalContext.current // Get the current context
+
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Image(
+                painter = painterResource(id = R.drawable.krishna),
+                contentDescription = "Image",
+                modifier = Modifier
+                    .size(300.dp, 200.dp)
+                    .clip(RoundedCornerShape(16.dp)),
+                contentScale = ContentScale.Crop
+            )
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            Text(
+                text = name,
+                style = MaterialTheme.typography.headlineSmall,
+                fontWeight = FontWeight.Bold
+            )
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            Text(
+                text = description,
+                style = MaterialTheme.typography.bodyLarge,
+            )
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            EditAndDeleteButtons(onEditClick = onEditClick,onDeleteClick=onDeleteClick)
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            // Read More Button
+            Button(
+                onClick = {
+
+                    try {
+                        val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.google.com"))
+                        context.startActivity(intent)
+                    } catch (e: Exception) {
+                        Log.e("Revanth", "Error opening link: ${e.message}")
+                        e.printStackTrace()
+                    }
+
+                },
+                modifier = Modifier.fillMaxWidth(),
+                colors = ButtonDefaults.buttonColors(containerColor = Color.Blue)
+            ) {
+                Text(text = "Read More", color = Color.White)
+            }
+        }
+    }
+}
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun NewsUI(modifier: Modifier) {
+fun NewsInputUI(modifier: Modifier) {
 
     var name by remember { mutableStateOf("") }
     var description by remember { mutableStateOf("") }
@@ -79,7 +204,7 @@ fun NewsUI(modifier: Modifier) {
             label = { Text("Link") },
             modifier = Modifier
                 .fillMaxWidth()
-                ,
+            ,
             singleLine = true,
             colors = TextFieldDefaults.textFieldColors(
                 containerColor = Color.Transparent, // Use containerColor for background in Material3
@@ -108,15 +233,16 @@ fun NewsUI(modifier: Modifier) {
         // Add Carousel Button
         OutlinedButton(
             onClick = {
-                logCarouselData(name, description, link = link)
+
             }
         ) {
             Text("Add News", fontSize = 18.sp, color = Color.White)
         }
     }
 }
-// Log carousel data
-fun logCarouselData(name: String, description: String,link:String) {
-    Log.i("Relevant","$name $description $link")
-}
 
+data class NewsUIData(
+    val name: String,
+    val description: String,
+    val link: String
+)
