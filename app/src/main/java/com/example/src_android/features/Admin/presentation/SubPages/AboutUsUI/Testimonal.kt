@@ -1,7 +1,6 @@
-package com.example.src_android.Admin.SubPages.HomeUI
+package com.example.src_android.features.Admin.presentation.SubPages.AboutUsUI
 
 import android.net.Uri
-import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
@@ -37,19 +36,17 @@ import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
 import com.example.src_android.R
 
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun Domain(modifier: Modifier = Modifier) {
-    var name by remember { mutableStateOf("") }
-    var description by remember { mutableStateOf("") }
-    var imageUri by remember { mutableStateOf<Uri?>(null) }
+fun TestimonalInputUI(modifier: Modifier) {
+
 
     val containerColor = if (MaterialTheme.colorScheme.primaryContainer == Color.Black) {
         Color(0xFFFAF9F6)
     } else {
         Color(0xFF1A1A1A)
     }
+    var imageUri by remember { mutableStateOf<Uri?>(null) }
 
 
     val launcher = rememberLauncherForActivityResult(
@@ -65,13 +62,13 @@ fun Domain(modifier: Modifier = Modifier) {
             .verticalScroll(rememberScrollState()),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(text = "Add New Domain", fontSize = 28.sp)
+        Text(text = "Add Testimonal", fontSize = 28.sp)
         Spacer(modifier = Modifier.height(16.dp))
         // Name TextField
         TextField(
-            value = name,
-            onValueChange = { name = it },
-            label = { Text("Domain Name") },
+            value = "",
+            onValueChange = { },
+            label = { Text("Name") },
             modifier = Modifier.fillMaxWidth(),
             colors = TextFieldDefaults.textFieldColors(
                 containerColor = Color.Transparent, // Use containerColor for background in Material3
@@ -83,9 +80,38 @@ fun Domain(modifier: Modifier = Modifier) {
 
         // Description TextField (5 lines)
         TextField(
-            value = description,
-            onValueChange = { description = it },
-            label = { Text("Domain Description") },
+            value = "",
+            onValueChange = { },
+            label = { Text("Email") },
+            modifier = Modifier
+                .fillMaxWidth(),
+            colors = TextFieldDefaults.textFieldColors(
+                containerColor = Color.Transparent, // Use containerColor for background in Material3
+                focusedIndicatorColor = containerColor, // Remove underline on focus
+
+            )
+        )
+        Spacer(modifier = Modifier.height(16.dp))
+
+
+        TextField(
+            value = "",
+            onValueChange = { },
+            label = { Text("Designation") },
+            modifier = Modifier
+                .fillMaxWidth(),
+            colors = TextFieldDefaults.textFieldColors(
+                containerColor = Color.Transparent, // Use containerColor for background in Material3
+                focusedIndicatorColor = containerColor, // Remove underline on focus
+
+            )
+        )
+        Spacer(modifier = Modifier.height(16.dp))
+
+        TextField(
+            value = "",
+            onValueChange = { },
+            label = { Text("Message") },
             modifier = Modifier
                 .fillMaxWidth()
                 .height(150.dp),
@@ -96,11 +122,12 @@ fun Domain(modifier: Modifier = Modifier) {
 
             )
         )
-        Spacer(modifier = Modifier.height(12.dp))
+        Spacer(modifier = Modifier.height(16.dp))
+
 
         // Display the selected image or a default image
         val imageModifier = Modifier
-            .size(200.dp,150.dp)
+            .size(200.dp, 150.dp)
             .clip(RoundedCornerShape(10.dp))
             .border(1.dp, Color.Gray, RoundedCornerShape(10.dp))
 
@@ -119,7 +146,7 @@ fun Domain(modifier: Modifier = Modifier) {
                 contentScale = ContentScale.Crop
             )
         }
-        Spacer(modifier = Modifier.height(10.dp))
+        Spacer(modifier = Modifier.height(16.dp))
 
         // Image Picker Button
         OutlinedButton(
@@ -128,22 +155,15 @@ fun Domain(modifier: Modifier = Modifier) {
             Text("Choose Image")
         }
 
-        Spacer(modifier = Modifier.height(10.dp))
+        Spacer(modifier = Modifier.height(16.dp))
 
         // Add Carousel Button
         OutlinedButton(
             onClick = {
-                logCarouselData(name, description,imageUri)
             }
         ) {
-            Text("Add Domain", fontSize = 18.sp, color = Color.White)
+            Text("Add Testimonal", fontSize = 18.sp, color = Color.White)
         }
     }
-}
 
-
-
-// Log carousel data
-fun logCarouselData(name: String, description: String, imageUri: Uri?) {
-    Log.i("Relevant","$name $description $imageUri")
 }

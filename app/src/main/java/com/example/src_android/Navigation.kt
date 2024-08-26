@@ -5,15 +5,14 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.example.src_android.Admin.AdminUI.AdminPage
-import com.example.src_android.Admin.SubPages.AboutUsUI.MakeCRUI
-import com.example.src_android.Admin.SubPages.AboutUsUI.MakeCoordinatorUI
-import com.example.src_android.Admin.SubPages.AboutUsUI.OfficialUI
-import com.example.src_android.Admin.SubPages.AboutUsUI.TestimonalInputUI
-import com.example.src_android.Admin.SubPages.HomeUI.Carousel
-import com.example.src_android.Admin.SubPages.HomeUI.Domain
-import com.example.src_android.Admin.SubPages.HomeUI.NewsUI
-import com.example.src_android.features.About.About
+import com.example.src_android.features.Admin.presentation.SubPages.AboutUsUI.MakeCRUI
+import com.example.src_android.features.Admin.presentation.SubPages.AboutUsUI.MakeCoordinatorUI
+import com.example.src_android.features.Admin.presentation.SubPages.AboutUsUI.OfficialUI
+import com.example.src_android.features.Admin.presentation.SubPages.AboutUsUI.TestimonalInputUI
+import com.example.src_android.features.Admin.presentation.SubPages.HomeUI.Carousel
+import com.example.src_android.features.Admin.presentation.SubPages.HomeUI.Domain
+import com.example.src_android.features.Admin.presentation.SubPages.HomeUI.NewsUI
+import com.example.src_android.features.About.presentation.About
 import com.example.src_android.features.home.presentaion.screens.Home
 import com.example.src_android.features.events.presentation.Events
 import com.example.src_android.features.profile.presentation.screens.Edt_Profile
@@ -48,10 +47,7 @@ fun Navigation(modifier: Modifier, navHostController: NavHostController,onChange
            About(modifier = modifier)
            onChange("about")
        }
-       composable("admin"){
-           AdminPage(navController=navHostController,modifier = modifier)
-           onChange("admin")
-       }
+
        composable("carousel"){
            Carousel(modifier = modifier)
            onChange("carousel")
@@ -72,13 +68,13 @@ fun Navigation(modifier: Modifier, navHostController: NavHostController,onChange
            TestimonalInputUI(modifier = modifier)
            onChange("testimonial")
        }
-       composable("makecr"){
+       composable("make-CR"){
            MakeCRUI(modifier = modifier)
-           onChange("makecr")
+           onChange("make-CR")
        }
-       composable("makecoordinator"){
+       composable("coordinator"){
            MakeCoordinatorUI(modifier = modifier)
-           onChange("makecoordinator")
+           onChange("coordinator")
        }
    }
 }

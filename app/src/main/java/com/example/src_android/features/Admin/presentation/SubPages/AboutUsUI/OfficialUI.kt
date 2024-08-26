@@ -1,4 +1,4 @@
-package com.example.src_android.Admin.SubPages.AboutUsUI
+package com.example.src_android.features.Admin.presentation.SubPages.AboutUsUI
 
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -34,8 +34,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
-import com.example.src_android.Admin.SubPages.HomeUI.DomainDropdown
-import com.example.src_android.Admin.SubPages.HomeUI.logCarouselData
+import com.example.src_android.features.Admin.presentation.SubPages.HomeUI.DomainDropdown
+import com.example.src_android.features.Admin.presentation.SubPages.HomeUI.logCarouselData
 import com.example.src_android.R
 
 @OptIn(ExperimentalMaterial3Api::class)

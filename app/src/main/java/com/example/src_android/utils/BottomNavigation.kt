@@ -12,6 +12,7 @@ import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
@@ -55,9 +56,9 @@ fun BottomNavigation(navHostController: NavHostController, onChange: (route: Str
                         painter = if (selected) it.filledImage else it.outlinedImage,
                         contentDescription = "Route",
                         modifier = Modifier.size(25.dp),
+                        colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.primary)
                     )
                 },
-
 
                 colors = NavigationBarItemDefaults.colors(
                     indicatorColor = Color.Transparent,
