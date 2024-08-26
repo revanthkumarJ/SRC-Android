@@ -7,12 +7,19 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.src_android.features.Admin.presentation.SubPages.AboutUsUI.MakeCRUI
 import com.example.src_android.features.Admin.presentation.SubPages.AboutUsUI.MakeCoordinatorUI
-import com.example.src_android.features.Admin.presentation.SubPages.AboutUsUI.OfficialUI
-import com.example.src_android.features.Admin.presentation.SubPages.AboutUsUI.TestimonalInputUI
 import com.example.src_android.features.Admin.presentation.SubPages.HomeUI.Carousel
 import com.example.src_android.features.Admin.presentation.SubPages.HomeUI.Domain
 import com.example.src_android.features.Admin.presentation.SubPages.HomeUI.NewsUI
 import com.example.src_android.features.About.presentation.About
+import com.example.src_android.features.Admin.presentation.SubPages.AboutUsUI.Official
+import com.example.src_android.features.Admin.presentation.SubPages.AboutUsUI.OfficialInputUI
+import com.example.src_android.features.Admin.presentation.SubPages.AboutUsUI.Testimonial
+import com.example.src_android.features.Admin.presentation.SubPages.AboutUsUI.TestimonialInputUI
+import com.example.src_android.features.Admin.presentation.SubPages.Events.UpComingEventUI
+import com.example.src_android.features.Admin.presentation.SubPages.HomeUI.CarouselInput
+import com.example.src_android.features.Admin.presentation.SubPages.HomeUI.DomainInputUI
+import com.example.src_android.features.Admin.presentation.SubPages.HomeUI.News
+import com.example.src_android.features.Admin.presentation.SubPages.HomeUI.NewsInputUI
 import com.example.src_android.features.home.presentaion.screens.Home
 import com.example.src_android.features.events.presentation.Events
 import com.example.src_android.features.profile.presentation.screens.Edt_Profile
@@ -52,21 +59,41 @@ fun Navigation(modifier: Modifier, navHostController: NavHostController,onChange
            Carousel(modifier = modifier)
            onChange("carousel")
        }
+       composable("carousel input"){
+           CarouselInput(modifier = modifier)
+           onChange("carousel input")
+       }
        composable("domain"){
            Domain(modifier = modifier)
            onChange("domain")
        }
+       composable("domain input"){
+           DomainInputUI(modifier = modifier)
+           onChange("domain input")
+       }
        composable("news"){
-           NewsUI(modifier = modifier)
+           News(modifier = modifier)
            onChange("news")
        }
+       composable("news input"){
+           NewsInputUI(modifier = modifier)
+           onChange("news input")
+       }
        composable("official"){
-           OfficialUI(modifier = modifier)
+           Official(modifier = modifier)
            onChange("official")
        }
+       composable("official input"){
+           OfficialInputUI(modifier = modifier)
+           onChange("official input")
+       }
        composable("testimonial"){
-           TestimonalInputUI(modifier = modifier)
+           Testimonial(modifier = modifier)
            onChange("testimonial")
+       }
+       composable("testimonial input"){
+           TestimonialInputUI(modifier = modifier)
+           onChange("testimonial input")
        }
        composable("make-CR"){
            MakeCRUI(modifier = modifier)
@@ -75,6 +102,10 @@ fun Navigation(modifier: Modifier, navHostController: NavHostController,onChange
        composable("coordinator"){
            MakeCoordinatorUI(modifier = modifier)
            onChange("coordinator")
+       }
+       composable("upcoming events"){
+           UpComingEventUI(modifier = modifier)
+           onChange("upcoming events")
        }
    }
 }
