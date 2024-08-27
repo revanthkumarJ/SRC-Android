@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
@@ -67,24 +68,43 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.ViewModelProvider
 import com.example.src_android.core.AdminOptions
-import com.example.src_android.features.Buttons.FloatingPointButton
+import com.example.src_android.features.about.presentation.OfficialViewModel
+import com.example.src_android.features.about.presentation.OfficialViewModelFactory
+import com.example.src_android.features.buttons.FloatingPointButton
 import com.example.src_android.utils.AdminBottomSheet
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+    @Inject
+    lateinit var officialViewModelFactory: OfficialViewModelFactory
+    private lateinit var officialViewModel: OfficialViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+//        init()
+
         setContent {
-            MainContent()
+            val officialViewModel: OfficialViewModel = remember {
+                ViewModelProvider(this, officialViewModelFactory)[OfficialViewModel::class.java]
+            }
+            MainContent(officialViewModel = officialViewModel)
         }
     }
+
+//    private fun init() {
+//        officialViewModel =
+//                ViewModelProvider(this, officialViewModelFactory)[officialViewModel::class.java]
+//    }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MainContent() {
+fun MainContent(officialViewModel: OfficialViewModel) {
     val context = LocalContext.current
     val sharedPreference = remember { SharedPreference(context) }
     var isDarkTheme by remember { mutableStateOf(sharedPreference.getThemePreference().mode) }
@@ -134,40 +154,34 @@ fun MainContent() {
                 floatingActionButton = {
                     if (route == "home") {
                         FabMenu(isMenuOpen) { isMenuOpen = !isMenuOpen }
-                    }
-                    else if(route == "official")
-                    {
+                    } else if (route == "official") {
                         FloatingPointButton {
                             navigateTo(navHostController = navHostController, "official input")
                         }
-                    }
-                    else if(route == "testimonial")
-                    {
+                    } else if (route == "testimonial") {
                         FloatingPointButton {
                             navigateTo(navHostController = navHostController, "testimonial input")
                         }
-                    }
-                    else if(route == "carousel")
-                    {
+                    } else if (route == "carousel") {
                         FloatingPointButton {
                             navigateTo(navHostController = navHostController, "carousel input")
                         }
-                    }
-                    else if(route == "domain")
-                    {
+                    } else if (route == "domain") {
                         FloatingPointButton {
                             navigateTo(navHostController = navHostController, "domain input")
                         }
-                    }
-                    else if(route == "news")
-                    {
+                    } else if (route == "news") {
                         FloatingPointButton {
                             navigateTo(navHostController = navHostController, "news input")
                         }
                     }
                 }
             ) { innerPadding ->
-                Navigation(modifier = Modifier.padding(innerPadding), navHostController) {
+                Navigation(
+                    modifier = Modifier.padding(innerPadding),
+                    navHostController,
+                    officialViewModel
+                ) {
                     route = it
                 }
                 if (showBottomSheet) {
@@ -181,7 +195,7 @@ fun MainContent() {
                         sheetState = adminBottomSheetState,
                         adminOptionList = getAdminList(option),
                         onClick = {
-                            isMenuOpen = !isMenuOpen; route = it; navigateTo(navHostController,it)
+                            isMenuOpen = !isMenuOpen; route = it; navigateTo(navHostController, it)
                         },
                         showAdminBottomSheet = { adminBottomSheet = !adminBottomSheet }
                     )
@@ -194,8 +208,10 @@ fun MainContent() {
                             .clickable { isMenuOpen = false }
                     )
                 }
-                FabMenuItems(isMenuOpen) {  option = it; adminBottomSheet =
-                    !adminBottomSheet }
+                FabMenuItems(isMenuOpen) {
+                    option = it; adminBottomSheet =
+                    !adminBottomSheet
+                }
 
             }
         }
@@ -227,11 +243,18 @@ fun TopAppBar(
                     "profile"
                 )
             })
-            "carousel input"->OtherTopBar(onClick = { navigateTo(navHostController, "carousel") })
-            "domain input"->OtherTopBar(onClick = { navigateTo(navHostController, "domain") })
-            "news input"->OtherTopBar(onClick = { navigateTo(navHostController, "news") })
-            "official input"->OtherTopBar(onClick = { navigateTo(navHostController, "official") })
-            "testimonial input"->OtherTopBar(onClick = { navigateTo(navHostController, "testimonial") })
+
+            "carousel input" -> OtherTopBar(onClick = { navigateTo(navHostController, "carousel") })
+            "domain input" -> OtherTopBar(onClick = { navigateTo(navHostController, "domain") })
+            "news input" -> OtherTopBar(onClick = { navigateTo(navHostController, "news") })
+            "official input" -> OtherTopBar(onClick = { navigateTo(navHostController, "official") })
+            "testimonial input" -> OtherTopBar(onClick = {
+                navigateTo(
+                    navHostController,
+                    "testimonial"
+                )
+            })
+
             else -> OtherTopBar(onClick = { navigateTo(navHostController, "home") })
         }
     }

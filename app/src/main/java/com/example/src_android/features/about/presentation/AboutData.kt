@@ -1,4 +1,4 @@
-package com.example.src_android.features.About.presentation
+package com.example.src_android.features.about.presentation
 
 data class AboutData(
     var image: String,
