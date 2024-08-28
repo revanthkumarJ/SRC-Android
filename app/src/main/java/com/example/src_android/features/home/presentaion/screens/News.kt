@@ -15,11 +15,13 @@ import androidx.compose.material3.Text
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.src_android.features.home.presentaion.HomeViewModel
 import com.example.src_android.features.home.presentaion.homeComponents.NewsCardItem
 
 
 @Composable
-fun LatestNews() {
+fun LatestNews(homeViewModel: HomeViewModel) {
+
     val news = listOf(
         News(R.drawable.src_logo, "This is title", "This is description.This is description.This " +
                 "is description.This is description.This is description.This is description.This " +
@@ -30,7 +32,7 @@ fun LatestNews() {
         News(R.drawable.src_logo, "This is title", "This is description")
     )
 
-
+    val newsData = homeViewModel.getNews()
     Column(
         verticalArrangement = Arrangement.Center,
         modifier = Modifier

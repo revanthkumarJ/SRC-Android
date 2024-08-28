@@ -1,7 +1,7 @@
-package com.example.src_android.features.about.di
+package com.example.src_android.core.di.modules
 
-import com.example.src_android.features.about.data.AboutRepo
-import com.example.src_android.features.about.network.AboutApiServices
+import com.example.src_android.core.data.repo.AboutRepo
+import com.example.src_android.core.data.services.AboutApiServices
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -21,7 +21,7 @@ class AboutModule {
 
     @Provides
     @Singleton
-    fun provideAboutRepo(aboutApiServices: AboutApiServices):AboutRepo{
+    fun provideAboutRepo(aboutApiServices: AboutApiServices): AboutRepo {
         return AboutRepo(aboutApiServices)
     }
 

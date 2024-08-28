@@ -22,6 +22,7 @@ import com.example.src_android.features.Admin.presentation.SubPages.HomeUI.NewsI
 import com.example.src_android.features.about.presentation.OfficialViewModel
 import com.example.src_android.features.home.presentaion.screens.Home
 import com.example.src_android.features.events.presentation.Events
+import com.example.src_android.features.home.presentaion.HomeViewModel
 import com.example.src_android.features.profile.presentation.screens.Edt_Profile
 import com.example.src_android.features.profile.presentation.screens.Profile
 import com.example.src_android.features.projects.presentation.Projects
@@ -29,12 +30,12 @@ import com.example.src_android.features.projects.presentation.Projects
 @Composable
 fun Navigation(
     modifier: Modifier, navHostController: NavHostController, officialViewModel:
-    OfficialViewModel, onChange: (route: String)
+    OfficialViewModel, homeViewModel: HomeViewModel,onChange: (route: String)
     -> Unit
 ) {
     NavHost(navController = navHostController, startDestination = "home") {
         composable("home") {
-            Home(modifier)
+            Home(modifier,homeViewModel)
             onChange("home")
         }
         composable("profile") {

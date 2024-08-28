@@ -41,7 +41,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.src_android.R
-import com.example.src_android.features.buttons.EditAndDeleteButtons
+import com.example.src_android.core.presentation.buttons.EditAndDeleteButtons
 
 
 @Composable

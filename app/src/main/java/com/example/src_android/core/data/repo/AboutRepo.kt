@@ -1,6 +1,6 @@
-package com.example.src_android.features.about.data
+package com.example.src_android.core.data.repo
 
-import com.example.src_android.features.about.network.AboutApiServices
+import com.example.src_android.core.data.services.AboutApiServices
 import javax.inject.Inject
 
 class AboutRepo @Inject constructor(private val aboutApiServices: AboutApiServices) {

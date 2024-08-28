@@ -72,7 +72,9 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.src_android.core.AdminOptions
 import com.example.src_android.features.about.presentation.OfficialViewModel
 import com.example.src_android.features.about.presentation.OfficialViewModelFactory
-import com.example.src_android.features.buttons.FloatingPointButton
+import com.example.src_android.core.presentation.buttons.FloatingPointButton
+import com.example.src_android.features.home.presentaion.HomeViewModel
+import com.example.src_android.features.home.presentaion.HomeViewModelFactory
 import com.example.src_android.utils.AdminBottomSheet
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
@@ -82,7 +84,8 @@ import javax.inject.Inject
 class MainActivity : ComponentActivity() {
     @Inject
     lateinit var officialViewModelFactory: OfficialViewModelFactory
-    private lateinit var officialViewModel: OfficialViewModel
+    @Inject
+    lateinit var homeViewModelFactory: HomeViewModelFactory
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -92,7 +95,10 @@ class MainActivity : ComponentActivity() {
             val officialViewModel: OfficialViewModel = remember {
                 ViewModelProvider(this, officialViewModelFactory)[OfficialViewModel::class.java]
             }
-            MainContent(officialViewModel = officialViewModel)
+            val homeViewModel: HomeViewModel = remember {
+                ViewModelProvider(this, homeViewModelFactory)[HomeViewModel::class.java]
+            }
+            MainContent(officialViewModel = officialViewModel,homeViewModel = homeViewModel)
         }
     }
 
@@ -104,7 +110,7 @@ class MainActivity : ComponentActivity() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MainContent(officialViewModel: OfficialViewModel) {
+fun MainContent(officialViewModel: OfficialViewModel,homeViewModel: HomeViewModel) {
     val context = LocalContext.current
     val sharedPreference = remember { SharedPreference(context) }
     var isDarkTheme by remember { mutableStateOf(sharedPreference.getThemePreference().mode) }
@@ -180,7 +186,8 @@ fun MainContent(officialViewModel: OfficialViewModel) {
                 Navigation(
                     modifier = Modifier.padding(innerPadding),
                     navHostController,
-                    officialViewModel
+                    officialViewModel,
+                    homeViewModel
                 ) {
                     route = it
                 }

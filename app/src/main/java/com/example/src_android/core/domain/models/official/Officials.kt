@@ -1,4 +1,4 @@
-package com.example.src_android.features.about.data.model
+package com.example.src_android.core.domain.models.official
 
 data class Officials(
     val data: List<Data>,

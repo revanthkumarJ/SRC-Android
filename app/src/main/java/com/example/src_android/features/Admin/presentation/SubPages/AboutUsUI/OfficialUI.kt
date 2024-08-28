@@ -42,7 +42,7 @@ import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 import com.example.src_android.R
-import com.example.src_android.features.buttons.EditAndDeleteButtons
+import com.example.src_android.core.presentation.buttons.EditAndDeleteButtons
 
 
 @Composable

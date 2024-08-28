@@ -16,10 +16,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import com.example.src_android.features.home.presentaion.HomeViewModel
 import com.example.src_android.utils.SocialMedia
 
 @Composable
-fun Home(modifier: Modifier){
+fun Home(modifier: Modifier,homeViewModel: HomeViewModel){
 
     Column(
         modifier = modifier
@@ -29,7 +30,7 @@ fun Home(modifier: Modifier){
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         ImageCarousel()
-        LatestNews()
+        LatestNews(homeViewModel)
         UpcomingEvents()
         Domains()
         SocialMedia()

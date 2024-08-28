@@ -1,4 +1,4 @@
-package com.example.src_android.features.buttons
+package com.example.src_android.core.presentation.buttons
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
