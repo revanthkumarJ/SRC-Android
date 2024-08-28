@@ -1,6 +1,6 @@
 package com.example.src_android.core.data.services
 
-import com.example.src_android.core.News
+import com.example.src_android.core.domain.models.news.News
 import retrofit2.Response
 import retrofit2.http.GET
 

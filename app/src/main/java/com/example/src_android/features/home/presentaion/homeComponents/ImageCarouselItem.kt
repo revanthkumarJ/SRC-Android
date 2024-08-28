@@ -16,13 +16,18 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import coil.compose.rememberAsyncImagePainter
 import com.example.src_android.core.CarouselImage
+import com.example.src_android.core.domain.models.carousel.Carousel
+import com.example.src_android.core.domain.models.carousel.CarouselItem
+import com.example.src_android.utils.DecodeBase64ToBitmap
 
 @Composable
-fun ImageCarouselItem(news: CarouselImage) {
+fun ImageCarouselItem(carousel: CarouselItem) {
     ElevatedCard(
         elevation = CardDefaults.cardElevation(
             defaultElevation = 6.dp
@@ -34,14 +39,20 @@ fun ImageCarouselItem(news: CarouselImage) {
 
     ) {
         Box {
-            Image(
-                painter = painterResource(id = news.image),
-                modifier = Modifier
-                    .fillMaxSize()
-                    .width(350.dp),
-                contentScale = ContentScale.Crop,
-                contentDescription = "image"
-            )
+            val decoder = DecodeBase64ToBitmap()
+            val image = decoder.decodeBase64ToBitmap(carousel.image)
+            image?.let {
+                Image(
+                    bitmap = image.asImageBitmap(),
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .width(350.dp),
+                    contentScale = ContentScale.FillBounds,
+                    contentDescription = "image"
+                )
+            }
+
+
             Box(
                 modifier = Modifier
                     .height(150.dp)
@@ -57,7 +68,7 @@ fun ImageCarouselItem(news: CarouselImage) {
                     .align(Alignment.BottomCenter)
             ) {
                 Text(
-                    text = news.title,
+                    text = carousel.title,
                     color = Color.White,
                     modifier = Modifier
                         .padding(start = 25.dp)

@@ -24,17 +24,16 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import com.example.src_android.core.CarouselImage
 import androidx.compose.material3.Text
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import com.example.src_android.features.home.presentaion.HomeViewModel
 import com.example.src_android.features.home.presentaion.homeComponents.ImageCarouselItem
 
 @Composable
-fun ImageCarousel() {
-    val images = listOf(
-        CarouselImage(R.drawable.krishna, "this is title"),
-        CarouselImage(R.drawable.src_logo, "this is title"),
-        CarouselImage(R.drawable.krishna, "this is title"),
-    )
+fun ImageCarousel(homeViewModel: HomeViewModel) {
+    val carousels by homeViewModel.carouselData.observeAsState()
 
     Column(
         verticalArrangement = Arrangement.Center,
@@ -45,8 +44,12 @@ fun ImageCarousel() {
                 .height(250.dp)
                 .padding(start = 15.dp, end = 5.dp)
         ) {
-            itemsIndexed(images) { index, item ->
-                ImageCarouselItem(news = item)
+            carousels?.let {
+                it.map {
+                    item {
+                        ImageCarouselItem(it)
+                    }
+                }
             }
         }
 

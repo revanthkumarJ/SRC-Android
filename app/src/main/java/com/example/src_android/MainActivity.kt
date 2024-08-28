@@ -102,10 +102,7 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-//    private fun init() {
-//        officialViewModel =
-//                ViewModelProvider(this, officialViewModelFactory)[officialViewModel::class.java]
-//    }
+
 }
 
 @OptIn(ExperimentalMaterial3Api::class)

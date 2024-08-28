@@ -29,10 +29,10 @@ fun Home(modifier: Modifier,homeViewModel: HomeViewModel){
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        ImageCarousel()
+        ImageCarousel(homeViewModel)
         LatestNews(homeViewModel)
         UpcomingEvents()
-        Domains()
+        Domains(homeViewModel)
         SocialMedia()
     }
 }
