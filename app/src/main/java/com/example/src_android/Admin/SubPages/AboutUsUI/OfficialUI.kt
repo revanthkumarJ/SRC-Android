@@ -1,7 +1,6 @@
-package com.example.src_android.Admin.SubPages.HomeUI
+package com.example.src_android.Admin.SubPages.AboutUsUI
 
 import android.net.Uri
-import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
@@ -25,7 +24,6 @@ import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -52,28 +50,19 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
+import com.example.src_android.Admin.SubPages.HomeUI.DomainDropdown
+import com.example.src_android.Admin.SubPages.HomeUI.DomainUI
+import com.example.src_android.Admin.SubPages.HomeUI.DomainUIData
+import com.example.src_android.Admin.SubPages.HomeUI.logCarouselData
 import com.example.src_android.R
 
-
 @Composable
-fun Domain(modifier: Modifier) {
+fun Official(modifier: Modifier) {
     var array = listOf(
-        DomainUIData(
-            name = "Web Development",
-            description = "Used to create web pages",
-            image = ""
-        ),
-        DomainUIData(
-            name = "Web Development",
-            description = "Used to create web pages",
-            image = ""
-        ),
-        DomainUIData(
-            name = "Web Development",
-            description = "Used to create web pages",
-            image = ""
-        ),
-        DomainUIData(name = "Web Development", description = "Used to create web pages", image = "")
+        OfficialUIData(name = "RatnaKumari", designation = "HOD", phoneNumber = "0000000000", email = "jrevanth101@gmail.com", department = "CSE", linkdeIn = "", bio = "Bio snjjsbjs sjnjss bsbsn", qualifications = "hss MTech, PHD", image = ""),
+        OfficialUIData(name = "RatnaKumari", designation = "HOD", phoneNumber = "0000000000", email = "jrevanth101@gmail.com", department = "CSE", linkdeIn = "", bio = "Bio snjjsbjs sjnjss bsbsn", qualifications = "hss MTech, PHD", image = ""),
+        OfficialUIData(name = "RatnaKumari", designation = "HOD", phoneNumber = "0000000000", email = "jrevanth101@gmail.com", department = "CSE", linkdeIn = "", bio = "Bio snjjsbjs sjnjss bsbsn", qualifications = "hss MTech, PHD", image = "")
+
     )
     Column(modifier = modifier) {
         LazyRow(
@@ -81,21 +70,36 @@ fun Domain(modifier: Modifier) {
         ) {
             itemsIndexed(array)
             { index, item ->
-                DomainUI(
+                OfficialUI(
                     name = item.name,
-                    description = item.description,
+                    email = item.email,
+                    designation = item.designation ,
+                    phoneNumber = item.phoneNumber ,
+                    department = item.department,
+                    bio = item.bio,
+                    qualifications =item.qualifications ,
+                    linkdeIn = item.linkdeIn,
                     image = item.image,
-                    onEditClick = { /*TODO*/ },
-                    onDeleteClick = { /*TODO*/ }
-                )
+                    onEditClick = { /*TODO*/ }) {
+
+                }
             }
         }
     }
 }
 
 @Composable
-fun DomainUI(
-    name: String, description: String, image: String, onEditClick: () -> Unit,
+fun OfficialUI(
+    name: String,
+    email: String,
+    designation: String,
+    phoneNumber: String,
+    department: String,
+    bio: String,
+    qualifications: String,
+    linkdeIn: String,
+    image: String,
+    onEditClick: () -> Unit,
     onDeleteClick: () -> Unit,
 ) {
     val lightBlack = Color(0xFF1A1A1A)
@@ -115,7 +119,8 @@ fun DomainUI(
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp),
+                .padding(16.dp)
+                .verticalScroll(rememberScrollState()),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             // Image at the top with placeholder or fallback on error
@@ -149,9 +154,51 @@ fun DomainUI(
 
 
             Spacer(modifier = Modifier.height(16.dp))
-            // Description
+            // Email
             Text(
-                text = description,
+                text = email,
+                style = MaterialTheme.typography.bodyMedium,
+            )
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            Text(
+                text = phoneNumber,
+                style = MaterialTheme.typography.bodyMedium,
+            )
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            Text(
+                text = "$department Department",
+                style = MaterialTheme.typography.bodyMedium,
+            )
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            Text(
+                text = "Designation :$designation",
+                style = MaterialTheme.typography.bodyMedium,
+            )
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            Text(
+                text = "Bio: $bio",
+                style = MaterialTheme.typography.bodyMedium,
+            )
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            Text(
+                text = "Qualifications: $qualifications",
+                style = MaterialTheme.typography.bodyMedium,
+            )
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            Text(
+                text = "LinkdeIn: $linkdeIn",
                 style = MaterialTheme.typography.bodyMedium,
             )
 
@@ -200,11 +247,34 @@ fun DomainUI(
     }
 }
 
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DomainInputUI(modifier: Modifier = Modifier) {
-    var name by remember { mutableStateOf("") }
-    var description by remember { mutableStateOf("") }
+fun OfficialInputUI(modifier: Modifier) {
+    var name by remember {
+        mutableStateOf("")
+    }
+    var email by remember {
+        mutableStateOf("")
+    }
+    var designation by remember {
+        mutableStateOf("")
+    }
+    var phone by remember {
+        mutableStateOf("")
+    }
+    var dept by remember {
+        mutableStateOf("")
+    }
+    var bio by remember {
+        mutableStateOf("")
+    }
+    var qualifications by remember {
+        mutableStateOf("")
+    }
+    var linkdein by remember {
+        mutableStateOf("")
+    }
     var imageUri by remember { mutableStateOf<Uri?>(null) }
 
     val containerColor = if (MaterialTheme.colorScheme.primaryContainer == Color.Black) {
@@ -212,7 +282,6 @@ fun DomainInputUI(modifier: Modifier = Modifier) {
     } else {
         Color(0xFF1A1A1A)
     }
-
 
     val launcher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.GetContent()
@@ -227,13 +296,13 @@ fun DomainInputUI(modifier: Modifier = Modifier) {
             .verticalScroll(rememberScrollState()),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(text = "Add New Domain", fontSize = 28.sp)
+        Text(text = "Add Official", fontSize = 28.sp)
         Spacer(modifier = Modifier.height(16.dp))
         // Name TextField
         TextField(
-            value = name,
+            value = "",
             onValueChange = { name = it },
-            label = { Text("Domain Name") },
+            label = { Text("Name") },
             modifier = Modifier.fillMaxWidth(),
             colors = TextFieldDefaults.textFieldColors(
                 containerColor = Color.Transparent, // Use containerColor for background in Material3
@@ -245,20 +314,104 @@ fun DomainInputUI(modifier: Modifier = Modifier) {
 
         // Description TextField (5 lines)
         TextField(
-            value = description,
-            onValueChange = { description = it },
-            label = { Text("Domain Description") },
+            value = "",
+            onValueChange = { },
+            label = { Text("Email") },
             modifier = Modifier
-                .fillMaxWidth()
-                .height(150.dp),
-            maxLines = 5,
+                .fillMaxWidth(),
             colors = TextFieldDefaults.textFieldColors(
                 containerColor = Color.Transparent, // Use containerColor for background in Material3
                 focusedIndicatorColor = containerColor, // Remove underline on focus
 
             )
         )
-        Spacer(modifier = Modifier.height(12.dp))
+        Spacer(modifier = Modifier.height(16.dp))
+
+
+        TextField(
+            value = "",
+            onValueChange = { },
+            label = { Text("Designation") },
+            modifier = Modifier
+                .fillMaxWidth(),
+            colors = TextFieldDefaults.textFieldColors(
+                containerColor = Color.Transparent, // Use containerColor for background in Material3
+                focusedIndicatorColor = containerColor, // Remove underline on focus
+
+            )
+        )
+        Spacer(modifier = Modifier.height(16.dp))
+
+        TextField(
+            value = "",
+            onValueChange = { },
+            label = { Text("Phone Number") },
+            modifier = Modifier
+                .fillMaxWidth(),
+            colors = TextFieldDefaults.textFieldColors(
+                containerColor = Color.Transparent, // Use containerColor for background in Material3
+                focusedIndicatorColor = containerColor, // Remove underline on focus
+
+            )
+        )
+        Spacer(modifier = Modifier.height(16.dp))
+
+        TextField(
+            value = "",
+            onValueChange = { },
+            label = { Text("Department") },
+            modifier = Modifier
+                .fillMaxWidth(),
+            colors = TextFieldDefaults.textFieldColors(
+                containerColor = Color.Transparent, // Use containerColor for background in Material3
+                focusedIndicatorColor = containerColor, // Remove underline on focus
+
+            )
+        )
+        Spacer(modifier = Modifier.height(16.dp))
+
+        TextField(
+            value = "",
+            onValueChange = { },
+            label = { Text("Bio") },
+            modifier = Modifier
+                .fillMaxWidth(),
+            colors = TextFieldDefaults.textFieldColors(
+                containerColor = Color.Transparent, // Use containerColor for background in Material3
+                focusedIndicatorColor = containerColor, // Remove underline on focus
+
+            )
+        )
+        Spacer(modifier = Modifier.height(16.dp))
+
+        TextField(
+            value = "",
+            onValueChange = { },
+            label = { Text("Qualifications") },
+            modifier = Modifier
+                .fillMaxWidth(),
+            colors = TextFieldDefaults.textFieldColors(
+                containerColor = Color.Transparent, // Use containerColor for background in Material3
+                focusedIndicatorColor = containerColor, // Remove underline on focus
+
+            )
+        )
+        Spacer(modifier = Modifier.height(16.dp))
+
+        TextField(
+            value = "",
+            onValueChange = { },
+            label = { Text("LinkdeIn") },
+            modifier = Modifier
+                .fillMaxWidth(),
+            colors = TextFieldDefaults.textFieldColors(
+                containerColor = Color.Transparent, // Use containerColor for background in Material3
+                focusedIndicatorColor = containerColor, // Remove underline on focus
+
+            )
+        )
+        Spacer(modifier = Modifier.height(16.dp))
+
 
         // Display the selected image or a default image
         val imageModifier = Modifier
@@ -281,7 +434,7 @@ fun DomainInputUI(modifier: Modifier = Modifier) {
                 contentScale = ContentScale.Crop
             )
         }
-        Spacer(modifier = Modifier.height(10.dp))
+        Spacer(modifier = Modifier.height(16.dp))
 
         // Image Picker Button
         OutlinedButton(
@@ -290,22 +443,28 @@ fun DomainInputUI(modifier: Modifier = Modifier) {
             Text("Choose Image")
         }
 
-        Spacer(modifier = Modifier.height(10.dp))
+        Spacer(modifier = Modifier.height(16.dp))
 
         // Add Carousel Button
         OutlinedButton(
             onClick = {
-
             }
         ) {
-            Text("Add Domain", fontSize = 18.sp, color = Color.White)
+            Text("Add Official", fontSize = 18.sp, color = Color.White)
         }
     }
+
 }
 
 
-data class DomainUIData(
+data class OfficialUIData(
     val name: String,
-    val description: String,
+    val email: String,
+    val designation: String,
+    val phoneNumber: String,
+    val department: String,
+    val bio: String,
+    val qualifications: String,
+    val linkdeIn: String,
     val image: String
 )

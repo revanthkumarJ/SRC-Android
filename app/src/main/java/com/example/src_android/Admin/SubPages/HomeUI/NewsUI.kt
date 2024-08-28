@@ -1,5 +1,6 @@
 package com.example.src_android.Admin.SubPages.HomeUI
 
+import android.content.Intent
 import android.net.Uri
 import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -51,42 +52,26 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
-import coil.request.ImageRequest
 import com.example.src_android.R
 
-
 @Composable
-fun Domain(modifier: Modifier) {
-    var array = listOf(
-        DomainUIData(
-            name = "Web Development",
-            description = "Used to create web pages",
-            image = ""
-        ),
-        DomainUIData(
-            name = "Web Development",
-            description = "Used to create web pages",
-            image = ""
-        ),
-        DomainUIData(
-            name = "Web Development",
-            description = "Used to create web pages",
-            image = ""
-        ),
-        DomainUIData(name = "Web Development", description = "Used to create web pages", image = "")
-    )
-    Column(modifier = modifier) {
-        LazyRow(
+fun News(modifier: Modifier)
+{
 
+    val array= listOf(NewsUIData(name = "Latest News", description = "This is a description", link = "https://www.google.com"),NewsUIData(name = "Latest News", description = "This is a description", link = "https://www.google.com"))
+
+    Column(modifier=modifier) {
+        LazyRow(
         ) {
             itemsIndexed(array)
-            { index, item ->
-                DomainUI(
+            {
+                    index, item ->
+                NewsUI(
                     name = item.name,
                     description = item.description,
-                    image = item.image,
                     onEditClick = { /*TODO*/ },
-                    onDeleteClick = { /*TODO*/ }
+                    onDeleteClick = { /*TODO*/ },
+                    link = ""
                 )
             }
         }
@@ -94,9 +79,12 @@ fun Domain(modifier: Modifier) {
 }
 
 @Composable
-fun DomainUI(
-    name: String, description: String, image: String, onEditClick: () -> Unit,
-    onDeleteClick: () -> Unit,
+fun NewsUI(
+    name: String,
+    description: String,
+    link: String,
+    onEditClick: () -> Unit,
+    onDeleteClick: () -> Unit
 ) {
     val lightBlack = Color(0xFF1A1A1A)
     val lightBlack1 = Color(0xFFFAF9F6)
@@ -112,25 +100,16 @@ fun DomainUI(
             ) lightBlack else lightBlack1
         )
     ) {
+        val context = LocalContext.current // Get the current context
+
         Column(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            // Image at the top with placeholder or fallback on error
-            val painter = // If error occurs, show default image
-                rememberAsyncImagePainter( // Animation for a smooth transition
-                    ImageRequest.Builder(LocalContext.current).data(data = image)
-                        .apply(block = fun ImageRequest.Builder.() {
-                            placeholder(R.drawable.krishna)
-                            error(R.drawable.krishna) // If error occurs, show default image
-                            crossfade(true) // Animation for a smooth transition
-                        }).build()
-                )
-
             Image(
-                painter = painter,
+                painter = painterResource(id = R.drawable.krishna),
                 contentDescription = "Image",
                 modifier = Modifier
                     .size(300.dp, 200.dp)
@@ -140,36 +119,32 @@ fun DomainUI(
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // Name
             Text(
                 text = name,
                 style = MaterialTheme.typography.headlineSmall,
                 fontWeight = FontWeight.Bold
             )
 
+            Spacer(modifier = Modifier.height(8.dp))
 
-            Spacer(modifier = Modifier.height(16.dp))
-            // Description
             Text(
                 text = description,
-                style = MaterialTheme.typography.bodyMedium,
+                style = MaterialTheme.typography.bodyLarge,
             )
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // Buttons: Edit and Delete
             Row(
                 modifier = Modifier.width(300.dp),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                // Edit Button with Icon on the right
                 Button(
                     onClick = onEditClick,
                     modifier = Modifier.weight(1f)
                 ) {
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Text(text = "Edit")
-                        Spacer(modifier = Modifier.width(8.dp)) // Space between text and icon
+                        Spacer(modifier = Modifier.width(8.dp))
                         Icon(
                             imageVector = Icons.Default.Edit,
                             contentDescription = "Edit"
@@ -179,7 +154,6 @@ fun DomainUI(
 
                 Spacer(modifier = Modifier.width(16.dp))
 
-                // Delete Button with Icon on the right
                 Button(
                     onClick = onDeleteClick,
                     modifier = Modifier.weight(1f),
@@ -187,7 +161,7 @@ fun DomainUI(
                 ) {
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Text(text = "Delete")
-                        Spacer(modifier = Modifier.width(8.dp)) // Space between text and icon
+                        Spacer(modifier = Modifier.width(8.dp))
                         Icon(
                             imageVector = Icons.Default.Delete,
                             contentDescription = "Delete"
@@ -196,28 +170,42 @@ fun DomainUI(
                 }
             }
 
+            Spacer(modifier = Modifier.height(16.dp))
+
+            // Read More Button
+            Button(
+                onClick = {
+
+                    try {
+                        val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.google.com"))
+                        context.startActivity(intent)
+                    } catch (e: Exception) {
+                        Log.e("Revanth", "Error opening link: ${e.message}")
+                        e.printStackTrace()
+                    }
+
+                },
+                modifier = Modifier.fillMaxWidth(),
+                colors = ButtonDefaults.buttonColors(containerColor = Color.Blue)
+            ) {
+                Text(text = "Read More", color = Color.White)
+            }
         }
     }
 }
 
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DomainInputUI(modifier: Modifier = Modifier) {
+fun NewsInputUI(modifier: Modifier) {
+
     var name by remember { mutableStateOf("") }
     var description by remember { mutableStateOf("") }
-    var imageUri by remember { mutableStateOf<Uri?>(null) }
-
+    var link by remember { mutableStateOf("") }
     val containerColor = if (MaterialTheme.colorScheme.primaryContainer == Color.Black) {
         Color(0xFFFAF9F6)
     } else {
         Color(0xFF1A1A1A)
-    }
-
-
-    val launcher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.GetContent()
-    ) { uri: Uri? ->
-        imageUri = uri
     }
 
     Column(
@@ -227,13 +215,13 @@ fun DomainInputUI(modifier: Modifier = Modifier) {
             .verticalScroll(rememberScrollState()),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(text = "Add New Domain", fontSize = 28.sp)
+        Text(text = "Add Latest News", fontSize = 28.sp)
         Spacer(modifier = Modifier.height(16.dp))
         // Name TextField
         TextField(
             value = name,
             onValueChange = { name = it },
-            label = { Text("Domain Name") },
+            label = { Text("News Name") },
             modifier = Modifier.fillMaxWidth(),
             colors = TextFieldDefaults.textFieldColors(
                 containerColor = Color.Transparent, // Use containerColor for background in Material3
@@ -243,15 +231,30 @@ fun DomainInputUI(modifier: Modifier = Modifier) {
         )
         Spacer(modifier = Modifier.height(16.dp))
 
+        TextField(
+            value = link,
+            onValueChange = { link = it },
+            label = { Text("Link") },
+            modifier = Modifier
+                .fillMaxWidth()
+                ,
+            singleLine = true,
+            colors = TextFieldDefaults.textFieldColors(
+                containerColor = Color.Transparent, // Use containerColor for background in Material3
+                focusedIndicatorColor = containerColor, // Remove underline on focus
+
+            )
+        )
+        Spacer(modifier = Modifier.height(12.dp))
         // Description TextField (5 lines)
         TextField(
             value = description,
             onValueChange = { description = it },
-            label = { Text("Domain Description") },
+            label = { Text("News Description") },
             modifier = Modifier
                 .fillMaxWidth()
-                .height(150.dp),
-            maxLines = 5,
+                .height(300.dp),
+            maxLines = 10,
             colors = TextFieldDefaults.textFieldColors(
                 containerColor = Color.Transparent, // Use containerColor for background in Material3
                 focusedIndicatorColor = containerColor, // Remove underline on focus
@@ -260,52 +263,19 @@ fun DomainInputUI(modifier: Modifier = Modifier) {
         )
         Spacer(modifier = Modifier.height(12.dp))
 
-        // Display the selected image or a default image
-        val imageModifier = Modifier
-            .size(200.dp, 150.dp)
-            .clip(RoundedCornerShape(10.dp))
-            .border(1.dp, Color.Gray, RoundedCornerShape(10.dp))
-
-        if (imageUri != null) {
-            Image(
-                painter = rememberAsyncImagePainter(model = imageUri),
-                contentDescription = "Selected Image",
-                modifier = imageModifier,
-                contentScale = ContentScale.Crop
-            )
-        } else {
-            Image(
-                painter = painterResource(id = R.drawable.krishna), // replace with your default image resource
-                contentDescription = "Default Image",
-                modifier = imageModifier,
-                contentScale = ContentScale.Crop
-            )
-        }
-        Spacer(modifier = Modifier.height(10.dp))
-
-        // Image Picker Button
-        OutlinedButton(
-            onClick = { launcher.launch("image/*") }
-        ) {
-            Text("Choose Image")
-        }
-
-        Spacer(modifier = Modifier.height(10.dp))
-
         // Add Carousel Button
         OutlinedButton(
             onClick = {
 
             }
         ) {
-            Text("Add Domain", fontSize = 18.sp, color = Color.White)
+            Text("Add News", fontSize = 18.sp, color = Color.White)
         }
     }
 }
 
-
-data class DomainUIData(
+data class NewsUIData(
     val name: String,
     val description: String,
-    val image: String
+    val link: String
 )
