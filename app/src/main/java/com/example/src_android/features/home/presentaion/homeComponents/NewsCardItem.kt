@@ -1,5 +1,6 @@
 package com.example.src_android.features.home.presentaion.homeComponents
 
+import android.graphics.Bitmap
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -31,6 +32,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontVariation.weight
@@ -39,12 +41,13 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.src_android.core.News
+import com.example.src_android.core.domain.models.news.NewsItem
 import com.example.src_android.utils.NewsBottomSheet
 import kotlin.reflect.KProperty
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun NewsCardItem(news: News) {
+fun NewsCardItem(news: NewsItem,image : Bitmap?) {
     val lightBlack = Color(0xFF1A1A1A)
     val lightBlack1 = Color(0xFFFAF9F6)
     val newsItem by remember {
@@ -98,16 +101,18 @@ fun NewsCardItem(news: News) {
                 }
             }
             Spacer(modifier = Modifier.height(5.dp))
+            image?.let {
+                Image(
+                    bitmap = image.asImageBitmap(),
+                    contentDescription
+                    = "image",
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(250.dp)
+                )
+            }
 
-            Image(
-                painter = painterResource(id = news.image),
-                contentDescription
-                = "image",
-                contentScale = ContentScale.Crop,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(250.dp)
-            )
 
             Spacer(modifier = Modifier.height(5.dp))
             Column (modifier = Modifier.padding(vertical = 5.dp)) {
@@ -118,7 +123,7 @@ fun NewsCardItem(news: News) {
                     fontWeight = FontWeight.Bold
                 )
                 Text(
-                    text = news.description,
+                    text = news.content,
                     color = Color.Gray,
                     fontSize = 17.sp,
                     maxLines = 3,

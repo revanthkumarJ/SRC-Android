@@ -8,35 +8,22 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.src_android.R
 import com.example.src_android.core.Domain
+import com.example.src_android.features.home.presentaion.HomeViewModel
 import com.example.src_android.features.home.presentaion.homeComponents.DomainCard
 
 @Composable
-fun Domains() {
-    val domains = listOf(
-        Domain(
-            "App Dev",
-            "This is description",
-            R.drawable.src_logo
-        ), Domain(
-            "App Dev",
-            "This is description",
-            R.drawable.krishna
-        ), Domain(
-            "App Dev",
-            "This is description",
-            R.drawable.src_logo
-        ), Domain(
-            "App Dev",
-            "This is description",
-            R.drawable.src_logo
-        )
-    )
+fun Domains(homeViewModel: HomeViewModel) {
+
+    val domains by homeViewModel.domainsData.observeAsState()
+
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -50,12 +37,14 @@ fun Domains() {
             color = MaterialTheme.colorScheme.primary
         )
         LazyRow(modifier = Modifier.fillMaxWidth(0.95f)) {
-            itemsIndexed(domains) { index, item ->
-                DomainCard(
-                    domain = item
-                )
-
+            domains?.let {
+                it.map {domainItem ->
+                    item {
+                        DomainCard(domain = domainItem)
+                    }
+                }
             }
+
         }
     }
 }

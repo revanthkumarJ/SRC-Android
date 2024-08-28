@@ -24,10 +24,12 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.rememberAsyncImagePainter
 import com.example.src_android.core.Domain
+import com.example.src_android.core.domain.models.domain.DomainsItem
 
 @Composable
-fun DomainCard(domain: Domain) {
+fun DomainCard(domain: DomainsItem) {
     val lightBlack = Color(0xFF1A1A1A)
     val lightBlack1 = Color(0xFFFAF9F6)
 
@@ -46,11 +48,12 @@ fun DomainCard(domain: Domain) {
 
     ) {
         Column {
+            val image = rememberAsyncImagePainter(model = domain.image)
             // Event Image
             Image(
-                painter = painterResource(id = domain.image),
+                painter = image,
                 contentDescription = "Domain Image",
-                contentScale = ContentScale.Crop,
+                contentScale = ContentScale.FillBounds,
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(250.dp)
@@ -66,7 +69,8 @@ fun DomainCard(domain: Domain) {
 
                 color = MaterialTheme.colorScheme.primary,
                 modifier = Modifier
-                    .padding(16.dp).align(alignment = Alignment.CenterHorizontally)
+                    .padding(16.dp)
+                    .align(alignment = Alignment.CenterHorizontally)
 
             )
         }

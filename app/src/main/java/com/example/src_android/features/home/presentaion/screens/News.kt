@@ -5,34 +5,25 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.example.src_android.R
-import com.example.src_android.core.News
 import androidx.compose.material3.Text
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.src_android.features.home.presentaion.HomeViewModel
 import com.example.src_android.features.home.presentaion.homeComponents.NewsCardItem
+import com.example.src_android.utils.DecodeBase64ToBitmap
 
 
 @Composable
 fun LatestNews(homeViewModel: HomeViewModel) {
 
-    val news = listOf(
-        News(R.drawable.src_logo, "This is title", "This is description.This is description.This " +
-                "is description.This is description.This is description.This is description.This " +
-                "is description.This is description"),
-        News(R.drawable.krishna, "This is title", "This is description"),
-        News(R.drawable.src_logo, "This is title", "This is description"),
-        News(R.drawable.src_logo, "This is title", "This is description"),
-        News(R.drawable.src_logo, "This is title", "This is description")
-    )
 
-    val newsData = homeViewModel.getNews()
+    val news by homeViewModel.newsData.observeAsState()
     Column(
         verticalArrangement = Arrangement.Center,
         modifier = Modifier
@@ -47,12 +38,17 @@ fun LatestNews(homeViewModel: HomeViewModel) {
             color = MaterialTheme.colorScheme.primary
         )
         LazyRow(modifier = Modifier.fillMaxWidth(0.95f)) {
-            itemsIndexed(news) { index, item ->
-                NewsCardItem(news = item)
+
+            news?.let{it->
+                it.map { newsItem ->
+                    val decoder = DecodeBase64ToBitmap()
+                    val bitmap = decoder.decodeBase64ToBitmap(it.first().image)
+                    item {
+                        NewsCardItem(news = newsItem,image = bitmap)
+                    }
+                }
             }
         }
     }
-
-
 }
 

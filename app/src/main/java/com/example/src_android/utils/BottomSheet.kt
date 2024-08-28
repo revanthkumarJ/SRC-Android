@@ -29,6 +29,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.src_android.core.AdminOptions
 import com.example.src_android.core.News
+import com.example.src_android.core.domain.models.news.NewsItem
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -81,7 +82,7 @@ fun BottomSheet(scope: CoroutineScope, sheetState: SheetState, showBottomSheet: 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NewsBottomSheet(
-    sheetState: SheetState, news: News, showBottomSheet: () -> Unit,
+    sheetState: SheetState, news: NewsItem, showBottomSheet: () -> Unit,
 ) {
     ModalBottomSheet(
         containerColor = MaterialTheme.colorScheme.primaryContainer,
@@ -110,7 +111,7 @@ fun NewsBottomSheet(
                 fontSize = 17.sp,
             )
             Text(
-                text = news.description,
+                text = news.content,
                 color = MaterialTheme.colorScheme.primary,
                 fontSize = 15.sp,
             )
