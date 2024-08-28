@@ -5,28 +5,29 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.example.src_android.Admin.AdminUI.AdminPage
-import com.example.src_android.Admin.SubPages.AboutUsUI.MakeCRUI
-import com.example.src_android.Admin.SubPages.AboutUsUI.MakeCoordinatorUI
-import com.example.src_android.Admin.SubPages.AboutUsUI.Official
-import com.example.src_android.Admin.SubPages.AboutUsUI.Testimonal
-import com.example.src_android.Admin.SubPages.Events.UpComingEventUI
 import com.example.src_android.Admin.SubPages.HomeUI.Carousel
 import com.example.src_android.Admin.SubPages.HomeUI.Domain
-import com.example.src_android.Admin.SubPages.HomeUI.News
-import com.example.src_android.features.About.About
+import com.example.src_android.features.Admin.presentation.SubPages.AboutUsUI.MakeCRUI
+import com.example.src_android.features.Admin.presentation.SubPages.AboutUsUI.MakeCoordinatorUI
+import com.example.src_android.features.Admin.presentation.SubPages.AboutUsUI.Official
+import com.example.src_android.features.Admin.presentation.SubPages.AboutUsUI.Testimonial
+import com.example.src_android.features.Admin.presentation.SubPages.Events.UpComingEventUI
+import com.example.src_android.features.Admin.presentation.SubPages.HomeUI.News
+import com.example.src_android.features.about.presentation.About
+import com.example.src_android.features.about.presentation.OfficialViewModel
 import com.example.src_android.features.home.presentaion.screens.Home
 import com.example.src_android.features.events.presentation.Events
+import com.example.src_android.features.home.presentaion.HomeViewModel
 import com.example.src_android.features.profile.presentation.screens.Edt_Profile
 import com.example.src_android.features.profile.presentation.screens.Profile
 import com.example.src_android.features.projects.presentation.Projects
 
 @Composable
-fun Navigation(modifier: Modifier, navHostController: NavHostController,onChange:(route : String)
+fun Navigation(modifier: Modifier, navHostController: NavHostController,officialViewModel: OfficialViewModel,homeViewModel: HomeViewModel,onChange:(route : String)
 ->Unit){
    NavHost(navController = navHostController, startDestination = "home"){
        composable("home"){
-           Home(modifier)
+           Home(modifier,homeViewModel)
            onChange("home")
        }
        composable("profile"){
@@ -46,13 +47,10 @@ fun Navigation(modifier: Modifier, navHostController: NavHostController,onChange
            onChange("projects")
        }
        composable("about"){
-           About(modifier = modifier)
+           About(modifier = modifier, officialViewModel)
            onChange("about")
        }
-       composable("admin"){
-           AdminPage(navController=navHostController,modifier = modifier)
-           onChange("admin")
-       }
+
        composable("carousel"){
            Carousel(modifier = modifier)
            onChange("carousel")
@@ -70,7 +68,7 @@ fun Navigation(modifier: Modifier, navHostController: NavHostController,onChange
            onChange("official")
        }
        composable("testimonial"){
-           Testimonal(modifier = modifier)
+           Testimonial(modifier = modifier)
            onChange("testimonial")
        }
        composable("makecr"){
