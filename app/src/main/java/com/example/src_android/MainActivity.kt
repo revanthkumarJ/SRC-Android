@@ -1,6 +1,7 @@
 package com.example.src_android
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -38,6 +39,9 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Snackbar
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.LaunchedEffect
@@ -62,12 +66,14 @@ import com.example.src_android.utils.TopHomeBar
 import kotlinx.coroutines.launch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.zIndex
 import androidx.lifecycle.ViewModelProvider
 import com.example.src_android.core.AdminOptions
 import com.example.src_android.features.about.presentation.OfficialViewModel
@@ -75,21 +81,28 @@ import com.example.src_android.features.about.presentation.OfficialViewModelFact
 import com.example.src_android.core.presentation.buttons.FloatingPointButton
 import com.example.src_android.features.home.presentaion.HomeViewModel
 import com.example.src_android.features.home.presentaion.HomeViewModelFactory
+import com.example.src_android.features.login.presentation.loginViewModel.LogInViewModel
+import com.example.src_android.features.login.presentation.loginViewModel.LogInViewModelFactory
 import com.example.src_android.utils.AdminBottomSheet
+import com.example.src_android.utils.CustomSnackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import javax.inject.Inject
+import kotlin.math.log
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     @Inject
     lateinit var officialViewModelFactory: OfficialViewModelFactory
+
     @Inject
     lateinit var homeViewModelFactory: HomeViewModelFactory
+
+    @Inject
+    lateinit var logInViewModelFactory: LogInViewModelFactory
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-//        init()
 
         setContent {
             val officialViewModel: OfficialViewModel = remember {
@@ -98,7 +111,14 @@ class MainActivity : ComponentActivity() {
             val homeViewModel: HomeViewModel = remember {
                 ViewModelProvider(this, homeViewModelFactory)[HomeViewModel::class.java]
             }
-            MainContent(officialViewModel = officialViewModel,homeViewModel = homeViewModel)
+            val loginViewModel: LogInViewModel = remember {
+                ViewModelProvider(this, logInViewModelFactory)[LogInViewModel::class.java]
+
+            }
+            MainContent(
+                officialViewModel = officialViewModel, homeViewModel = homeViewModel,
+                loginViewModel = loginViewModel
+            )
         }
     }
 
@@ -107,116 +127,197 @@ class MainActivity : ComponentActivity() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MainContent(officialViewModel: OfficialViewModel,homeViewModel: HomeViewModel) {
+fun MainContent(
+    officialViewModel: OfficialViewModel, homeViewModel: HomeViewModel,
+    loginViewModel: LogInViewModel
+) {
+    val scope = rememberCoroutineScope()
     val context = LocalContext.current
+    val snackbarHostState = remember {
+        SnackbarHostState()
+    }
     val sharedPreference = remember { SharedPreference(context) }
     var isDarkTheme by remember { mutableStateOf(sharedPreference.getThemePreference().mode) }
+
     var isMenuOpen by remember { mutableStateOf(false) }
     val backgroundColor by animateColorAsState(
-        targetValue = if (isMenuOpen) Color.Black.copy(alpha = 1f) else Color.Transparent,
-        animationSpec = tween(durationMillis = 0)
+        targetValue = if (isMenuOpen) Color.Black.copy(alpha = .9f) else Color.Transparent,
+        animationSpec = tween(durationMillis = 0), label = "options Animation"
     )
     var route by remember { mutableStateOf("home") }
     var option by remember { mutableStateOf("home") }
 
+    val message by loginViewModel.messageObj.observeAsState(initial = null)
+    val loginCheck by loginViewModel.loginCheckObj.observeAsState()
+    val isAdmin by loginViewModel.role.observeAsState(initial = "user")
     LaunchedEffect(isDarkTheme) {
         sharedPreference.setThemePreference(isDarkTheme)
     }
 
+
+    LaunchedEffect(message) {
+        Log.d("arjun", message.toString())
+        scope.launch {
+            message?.let { snackbarHostState.showSnackbar(it) }
+        }
+        loginViewModel.clearSnackbarMessage()
+    }
+
+
+
     SRCAndroidTheme(darkTheme = isDarkTheme) {
         val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
-        val scope = rememberCoroutineScope()
-        val navHostController: NavHostController = rememberNavController()
         val sheetState = rememberModalBottomSheetState()
         var showBottomSheet by remember { mutableStateOf(false) }
         val adminBottomSheetState = rememberModalBottomSheetState()
         var adminBottomSheet by remember { mutableStateOf(false) }
+        val navHostController: NavHostController = rememberNavController()
+
+        LaunchedEffect(loginCheck) {
+            route = "home"
+            navigateTo(navHostController = navHostController, "home")
+        }
+
 
         ModalNavigationDrawer(
             drawerState = drawerState,
             drawerContent = {
                 NavigationDrawer(
+                    loginViewModel,
                     onClick = { if (drawerState.isOpen) scope.launch { drawerState.close() } },
                     toggleTheme = { isDarkTheme = !isDarkTheme },
                     isDarkTheme = isDarkTheme,
                     navigate = { navigateTo(navHostController, it); route = it },
-                    showBottomSheet = { showBottomSheet = !showBottomSheet }
+                    showBottomSheet = { showBottomSheet = !showBottomSheet },
+                    login = {
+                        route = it
+                        if (drawerState.isOpen) scope.launch {
+                            drawerState
+                                .close()
+                        }
+                        navigateTo(navHostController, it)
+                    }
                 )
             },
             gesturesEnabled = route == "home" && !isMenuOpen
         ) {
-            Scaffold(
-                containerColor = MaterialTheme.colorScheme.primaryContainer,
-                topBar = { TopAppBar(route, isMenuOpen, navHostController, scope, drawerState) },
-                bottomBar = {
-                    BottomBar(route, navHostController, isMenuOpen) {
-                        route = it;
-                        navigateTo(navHostController = navHostController, it)
-                    }
-                },
-                floatingActionButton = {
-                    if (route == "home") {
-                        FabMenu(isMenuOpen) { isMenuOpen = !isMenuOpen }
-                    } else if (route == "official") {
-                        FloatingPointButton {
-                            navigateTo(navHostController = navHostController, "official input")
-                        }
-                    } else if (route == "testimonial") {
-                        FloatingPointButton {
-                            navigateTo(navHostController = navHostController, "testimonial input")
-                        }
-                    } else if (route == "carousel") {
-                        FloatingPointButton {
-                            navigateTo(navHostController = navHostController, "carousel input")
-                        }
-                    } else if (route == "domain") {
-                        FloatingPointButton {
-                            navigateTo(navHostController = navHostController, "domain input")
-                        }
-                    } else if (route == "news") {
-                        FloatingPointButton {
-                            navigateTo(navHostController = navHostController, "news input")
-                        }
-                    }
-                }
-            ) { innerPadding ->
-                Navigation(
-                    modifier = Modifier.padding(innerPadding),
-                    navHostController,
-                    officialViewModel,
-                    homeViewModel
-                ) {
-                    route = it
-                }
-                if (showBottomSheet) {
-                    BottomSheet(scope = scope, sheetState = sheetState) {
-                        showBottomSheet = !showBottomSheet
-                    }
-                }
-                if (adminBottomSheet) {
-                    AdminBottomSheet(
-                        scope = scope,
-                        sheetState = adminBottomSheetState,
-                        adminOptionList = getAdminList(option),
-                        onClick = {
-                            isMenuOpen = !isMenuOpen; route = it; navigateTo(navHostController, it)
-                        },
-                        showAdminBottomSheet = { adminBottomSheet = !adminBottomSheet }
-                    )
-                }
-                if (isMenuOpen) {
-                    Box(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .background(backgroundColor)
-                            .clickable { isMenuOpen = false }
-                    )
-                }
-                FabMenuItems(isMenuOpen) {
-                    option = it; adminBottomSheet =
-                    !adminBottomSheet
-                }
+            Box(modifier = Modifier.fillMaxSize()) {
+                Scaffold(
+                    snackbarHost = {
 
+                        SnackbarHost(
+                            hostState = snackbarHostState,
+                        )
+                    },
+                    containerColor = MaterialTheme.colorScheme.primaryContainer,
+                    topBar = {
+                        TopAppBar(
+                            route,
+                            navHostController,
+                            scope,
+                            drawerState
+                        )
+                    },
+                    bottomBar = {
+                        BottomBar(route, navHostController, isMenuOpen) {
+                            route = it;
+                            navigateTo(navHostController = navHostController, it)
+                        }
+                    },
+
+                    ) { innerPadding ->
+                    Navigation(
+                        modifier = Modifier.padding(innerPadding),
+                        navHostController,
+                        officialViewModel,
+                        homeViewModel,
+                        loginViewModel
+                    ) {
+                        route = it
+                    }
+                    if (showBottomSheet) {
+                        BottomSheet(scope = scope, sheetState = sheetState, logout = {
+                            if (drawerState.isOpen) scope.launch { drawerState.close() }
+                            loginViewModel.updateLoginStatus()
+                        }) {
+                            showBottomSheet = !showBottomSheet
+
+                        }
+                    }
+                    if (adminBottomSheet) {
+                        AdminBottomSheet(
+                            scope = scope,
+                            sheetState = adminBottomSheetState,
+                            adminOptionList = getAdminList(option),
+                            onClick = {
+                                isMenuOpen = !isMenuOpen; route = it; navigateTo(
+                                navHostController,
+                                it
+                            )
+                            },
+                            showAdminBottomSheet = { adminBottomSheet = !adminBottomSheet }
+                        )
+                    }
+
+
+                }
+            }
+            if (isMenuOpen) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(backgroundColor)
+                        .clickable { isMenuOpen = false }
+                )
+            }
+
+            Box(
+                modifier = Modifier
+                    .zIndex(2f)
+                    .fillMaxSize()
+                    .padding(bottom = 150.dp, end = 15.dp)
+                    .zIndex(2f),
+                contentAlignment = Alignment.BottomEnd
+            ) {
+                if (route == "home" && isAdmin == "admin") {
+                    FabMenu(isMenuOpen) { isMenuOpen = !isMenuOpen }
+                } else if (route == "official") {
+                    FloatingPointButton {
+                        navigateTo(
+                            navHostController = navHostController,
+                            "official input"
+                        )
+                    }
+                } else if (route == "testimonial") {
+                    FloatingPointButton {
+                        navigateTo(
+                            navHostController = navHostController,
+                            "testimonial input"
+                        )
+                    }
+                } else if (route == "carousel") {
+                    FloatingPointButton {
+                        navigateTo(
+                            navHostController = navHostController,
+                            "carousel input"
+                        )
+                    }
+                } else if (route == "domain") {
+                    FloatingPointButton {
+                        navigateTo(
+                            navHostController = navHostController,
+                            "domain input"
+                        )
+                    }
+                } else if (route == "news") {
+                    FloatingPointButton {
+                        navigateTo(navHostController = navHostController, "news input")
+                    }
+                }
+            }
+            FabMenuItems(isMenuOpen) {
+                option = it; adminBottomSheet =
+                !adminBottomSheet
             }
         }
     }
@@ -226,41 +327,38 @@ fun MainContent(officialViewModel: OfficialViewModel,homeViewModel: HomeViewMode
 @Composable
 fun TopAppBar(
     route: String,
-    isMenuOpen: Boolean,
     navHostController: NavHostController,
     scope: CoroutineScope,
     drawerState: DrawerState
 ) {
-    if (!isMenuOpen) {
-        when (route) {
-            "home" -> TopHomeBar {
-                scope.launch { if (drawerState.isClosed) drawerState.open() else drawerState.close() }
-            }
-
-            "profile" -> ProfileTopBar(onClick = { navigateTo(navHostController, "home") }) {
-                navigateTo(navHostController, "edt_profile")
-            }
-
-            "edt_profile" -> EdtProfileTopBar(onClick = {
-                navigateTo(
-                    navHostController,
-                    "profile"
-                )
-            })
-
-            "carousel input" -> OtherTopBar(onClick = { navigateTo(navHostController, "carousel") })
-            "domain input" -> OtherTopBar(onClick = { navigateTo(navHostController, "domain") })
-            "news input" -> OtherTopBar(onClick = { navigateTo(navHostController, "news") })
-            "official input" -> OtherTopBar(onClick = { navigateTo(navHostController, "official") })
-            "testimonial input" -> OtherTopBar(onClick = {
-                navigateTo(
-                    navHostController,
-                    "testimonial"
-                )
-            })
-
-            else -> OtherTopBar(onClick = { navigateTo(navHostController, "home") })
+    when (route) {
+        "home" -> TopHomeBar {
+            scope.launch { if (drawerState.isClosed) drawerState.open() else drawerState.close() }
         }
+
+        "profile" -> ProfileTopBar(onClick = { navigateTo(navHostController, "home") }) {
+            navigateTo(navHostController, "edt_profile")
+        }
+
+        "edt_profile" -> EdtProfileTopBar(onClick = {
+            navigateTo(
+                navHostController,
+                "profile"
+            )
+        })
+
+        "carousel input" -> OtherTopBar(onClick = { navigateTo(navHostController, "carousel") })
+        "domain input" -> OtherTopBar(onClick = { navigateTo(navHostController, "domain") })
+        "news input" -> OtherTopBar(onClick = { navigateTo(navHostController, "news") })
+        "official input" -> OtherTopBar(onClick = { navigateTo(navHostController, "official") })
+        "testimonial input" -> OtherTopBar(onClick = {
+            navigateTo(
+                navHostController,
+                "testimonial"
+            )
+        })
+
+        else -> OtherTopBar(onClick = { navigateTo(navHostController, "home") })
     }
 }
 
@@ -269,8 +367,9 @@ fun BottomBar(
     route: String, navHostController: NavHostController, isMenuOpen:
     Boolean, onChange: (changedRoute: String) -> Unit
 ) {
-    if (!isMenuOpen && route == "home") {
+    if (route == "home") {
         BottomNavigation(navHostController = navHostController) { onChange(it) }
+
     }
 }
 
@@ -278,8 +377,8 @@ fun BottomBar(
 fun FabMenu(isMenuOpen: Boolean, onClick: () -> Unit) {
     Box(
         modifier = Modifier
-            .fillMaxSize()
-            .padding(bottom = if (isMenuOpen) 81.dp else 0.dp),
+            .fillMaxSize(),
+//            .padding(bottom = if (isMenuOpen) 81.dp else 0.dp),
         contentAlignment = Alignment.BottomEnd
     ) {
         Row(
@@ -296,7 +395,7 @@ fun FabMenu(isMenuOpen: Boolean, onClick: () -> Unit) {
             }
             FloatingActionButton(
                 onClick = onClick,
-                containerColor = Color.LightGray,
+                containerColor = Color(8, 96, 152),
                 shape = RoundedCornerShape(50.dp),
                 elevation = FloatingActionButtonDefaults.elevation(defaultElevation = 15.dp),
                 modifier = Modifier.size(61.dp)

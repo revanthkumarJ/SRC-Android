@@ -74,7 +74,6 @@ fun ImageCarouselItem(carousel: CarouselItem) {
                         .padding(start = 25.dp)
                         .fillMaxWidth()
                         .align(Alignment.CenterStart)
-
                 )
             }
         }
