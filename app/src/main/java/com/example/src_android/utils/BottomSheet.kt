@@ -33,7 +33,10 @@ import com.example.src_android.core.domain.models.news.NewsItem
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun BottomSheet(scope: CoroutineScope, sheetState: SheetState, showBottomSheet: () -> Unit) {
+fun BottomSheet(scope: CoroutineScope, sheetState: SheetState,logout : ()-> Unit,
+showBottomSheet: ()
+->
+Unit) {
 
     ModalBottomSheet(
         containerColor = MaterialTheme.colorScheme.primaryContainer,
@@ -60,6 +63,7 @@ fun BottomSheet(scope: CoroutineScope, sheetState: SheetState, showBottomSheet: 
                             showBottomSheet()
                         }
                     }
+                    logout()
                 },
                 modifier = Modifier
                     .fillMaxWidth()

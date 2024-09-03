@@ -8,7 +8,6 @@ class SharedPreference(context: Context) {
     private val editor = sharedPreference.edit()
 
     fun getThemePreference() : ThemePreference{
-
         val isDarkMode = sharedPreference.getBoolean("mode",true)
         return ThemePreference(isDarkMode)
     }
@@ -32,7 +31,7 @@ class SharedPreference(context: Context) {
         return Email(email)
     }
 
-    fun setEmail(email : String){
+    fun setEmail(email : String?){
         editor.putString("email",email)
         editor.commit()
     }
@@ -42,19 +41,36 @@ class SharedPreference(context: Context) {
         return Username(username)
     }
 
-    fun setUsername(username :String){
+    fun setUsername(username :String?){
         editor.putString("username",username)
         editor.commit()
     }
 
     fun getAuthToken() : AuthToken{
-        val authToken = sharedPreference.getString("username",null)
+        val authToken = sharedPreference.getString("authToken",null)
         return AuthToken(authToken)
     }
 
-    fun setAuthToken(authToken : String){
+    fun setAuthToken(authToken : String?){
         editor.putString("authToken",authToken)
         editor.commit()
+    }
+    fun setIsCR(isCR : Boolean){
+        editor.putBoolean("isCR",isCR)
+        editor.commit()
+    }
+    fun getIsCR() : CR{
+        val isCR = sharedPreference.getBoolean("isCR",false)
+        return CR(isCR)
+    }
+
+    fun setRole(role : String){
+        editor.putString("role",role)
+        editor.commit()
+    }
+    fun getRole() : Role{
+        val role = sharedPreference.getString("role","user")
+        return Role(role)
     }
 }
 
@@ -72,4 +88,11 @@ data class AuthToken(
 )
 data class ThemePreference(
     val mode : Boolean
+)
+data class CR(
+    val isCR : Boolean?=false
+)
+
+data class Role(
+    val role : String?="user"
 )

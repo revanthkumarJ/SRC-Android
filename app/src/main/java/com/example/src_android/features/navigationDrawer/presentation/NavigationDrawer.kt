@@ -1,5 +1,6 @@
 package com.example.src_android.features.navigationDrawer.presentation
 
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -8,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Home
@@ -25,39 +27,45 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import com.example.src_android.R
+import com.example.src_android.features.login.presentation.loginViewModel.LogInViewModel
 import com.example.src_android.utils.SharedPreference
 
 @Composable
 fun NavigationDrawer(
+    logInViewModel: LogInViewModel,
     isDarkTheme: Boolean,
     onClick: () -> Unit,
     navigate: (route: String) -> Unit,
     toggleTheme: () -> Unit,
-    showBottomSheet: () -> Unit
+    showBottomSheet: () -> Unit,
+    login: (route: String) -> Unit
 ) {
-    val context = LocalContext.current
-    val sharedPreference = remember {
-        SharedPreference(context)
-    }
-    val loginStatus by remember {
-        mutableStateOf(sharedPreference.getLoginStatus().isLogged)
-    }
-    val username by remember {
-        mutableStateOf(sharedPreference.getUsername().username)
-    }
-    val email by remember {
-        mutableStateOf(sharedPreference.getEmail().email)
-    }
 
-    ModalDrawerSheet(drawerContainerColor = MaterialTheme.colorScheme.primaryContainer) {
+    val loginStatus by logInViewModel.loginStatusObj.observeAsState(false)
+    val username by logInViewModel.usernameObj.observeAsState("")
+    val email by logInViewModel.emailObj.observeAsState("")
+
+
+    LaunchedEffect(loginStatus, username, email) {
+        Log.d("arjun", "loginStatus: $loginStatus, username: $username, email: $email")
+    }
+    ModalDrawerSheet(
+        drawerContainerColor = MaterialTheme.colorScheme.primaryContainer, modifier
+        = Modifier.fillMaxWidth(0.89f)
+    ) {
 
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,
@@ -76,30 +84,42 @@ fun NavigationDrawer(
                         .size(55.dp)
                         .padding(bottom = 5.dp)
                 )
+                if (loginStatus) {
 
-                Text(
-                    text = "email@gmail.com",
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.colorScheme.primary,
-                    modifier = Modifier.padding(top = 1.dp)
-                )
-                Text(
-                    text = "Username",
-                    fontSize = 14.sp,
-                    color = MaterialTheme.colorScheme.primary,
-                    modifier = Modifier.padding(top = 1.dp)
-                )
+                    email?.let {
+                        Text(
+                            text = it,
+                            fontSize = 16.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = MaterialTheme.colorScheme.primary,
+                            modifier = Modifier.padding(top = 1.dp)
+                        )
+                    }
+                    username?.let {
+                        Text(
+                            text = it,
+                            fontSize = 14.sp,
+                            color = MaterialTheme.colorScheme.primary,
+                            modifier = Modifier.padding(top = 1.dp)
+                        )
+                    }
+
+                } else {
+                    TextButton(onClick = { login("login") }, shape = RoundedCornerShape(5.dp)) {
+                        Text(text = "Login", fontSize = 19.sp, color = Color.Gray)
+                    }
+                }
+
             }
-//            if (loginStatus) {
-            IconButton(onClick = { showBottomSheet() }) {
-                Icon(
-                    painter = painterResource(id = R.drawable.ic_user_options),
-                    contentDescription = "User Options",
-                    modifier = Modifier.size(25.dp)
-                )
+            if (loginStatus) {
+                IconButton(onClick = { showBottomSheet() }) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.ic_user_options),
+                        contentDescription = "User Options",
+                        modifier = Modifier.size(25.dp)
+                    )
+                }
             }
-//            }
         }
         HorizontalDivider(modifier = Modifier.padding(top = 5.dp, bottom = 5.dp))
         NavigationDrawerItem(colors = NavigationDrawerItemDefaults.colors(
